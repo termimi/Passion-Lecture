@@ -23,7 +23,7 @@
     methods: {
       async login() {
         try {
-            //Requete à l'api en envant nos données
+            //Requete à l'api en envoyant nos données
           const res = await axios.post('http://localhost:3000/api/login/', {
             pseudo: this.pseudo,
             password: this.password
