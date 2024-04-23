@@ -5,6 +5,18 @@
         <input type="password" v-model="password" placeholder="Mot de passe">
         <button type="submit">Se connecter</button>
     </form>
+    <!--Bouton affichage info-->
+    <button v-if="logged" @click="getBooks">Voir les livres</button>
+
+    <div>
+    <!-- Affichage des livres -->
+    <div v-if="books">
+      <h2>Liste de livres:</h2>
+      <ul>
+        <li>Nom d'utilisateur:{{books}}</li>
+      </ul>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -15,7 +27,9 @@ export default {
     data() {
         return {
             pseudo: '',
-            password: ''
+            password: '',
+            logged: false,
+            books: null
         };
     },
     //Connexion (requete à l'api)
@@ -29,10 +43,15 @@ export default {
                 //Reponse de l'api
             }).then((response) => {
                 console.log('Connexion réussite',response);
+                this.logged = true;
                 //Erreur de l'api
             }).catch((error) => {
                 console.error('Erreur lors de la connexion :', error);
             });
+        },
+        async getBooks() {
+            const response = await axios.get('http://localhost:3000/api/categorys/6/books');
+            this.books = response.data;
         }
     }
 }
