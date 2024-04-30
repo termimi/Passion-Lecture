@@ -2,7 +2,7 @@
     <header>
         <div class="logoLB">
             <router-link to="/" class ="logo-link">
-                <img src="@/assets/logo.png" alt="Logo"/>
+                <img src="@/assets/logoLovbooks.png" alt="Logo" class="logoLBpng"/>
             </router-link>
         </div>
         <nav>
@@ -24,16 +24,22 @@ export default{
 <style scoped>
 header{
     display: flex;
-    justify-content: space-between;
+    justify-content:center;
     align-items: center;
     padding: 10px 20px;
-    background-color: #333;
+    background-color: #000000;
     color: #fff;
+    width: 100%;
+    height: 175px;
+    
 }
 
-.logoLB{
-
+.logoLBpng{
+    margin-right: 0px;
+    height: 150px;
+    margin-right: 350px;
 }
+
 .menu {
     list-style: none;
     display: flex;

@@ -1,9 +1,10 @@
 <script setup>
-import TheWelcome from '../components/TheWelcome.vue'
+import BookDay from '@/components/BookDay.vue';
 </script>
 
 <template>
   <main>
-    <TheWelcome />
+    <BookDay/>
+
   </main>
 </template>
