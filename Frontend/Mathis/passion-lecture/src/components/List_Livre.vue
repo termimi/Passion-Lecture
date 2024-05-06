@@ -2,25 +2,23 @@
     <div>
         <!-- Affichage des livres par catégorie -->
         <div v-for="(categoryBooks, categoryName) in booksByCategory" :key="categoryName">
-            <!-- Affichage de la catégorie -->
             <h2>{{ categoryName }} :</h2>
             <ul class="book-list">
-                <!-- Affichage des livres -->
                 <li v-for="book in categoryBooks" :key="book.id" class="book-item">
                     <div>
-                        <!-- Afficher l'image de couverture -->
-                        <img v-if="book.cover_image" :src="book.cover_image" alt="Image de couverture"
-                            style="max-width: 200px;">
+                        <img v-if="book.cover_image" :src="book.cover_image" alt="Image de couverture">
                     </div>
                     <div>
-                        <strong>Titre :</strong> {{ book.title }}
+                        <p>Titre : {{ book.title }}</p>
                     </div>
                     <div>
-                        <strong>Auteur :</strong> {{ book.author.name }}
+                        <p>Auteur : {{ book.author.name }}</p>
                     </div>
                     <div>
-                        <strong>Utilisateur :</strong> {{ book.customer.pseudo }}
+                        <p>Utilisateur : {{ book.customer.pseudo }}</p>
                     </div>
+                    <!-- Voir détails -->
+                    <router-link :to="{ name: 'details', params: { id: book.id } }">Voir les détails</router-link>
                 </li>
             </ul>
             <hr>
@@ -35,26 +33,27 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    /* Pour aligner les livres horizontalement avec un espacement équitable */
+}
+
+img {
+    max-width: 200px;
 }
 
 .book-item {
-    width: calc(33.33% - 20px);
-    /* Pour que chaque livre occupe environ un tiers de l'espace, en tenant compte de la marge */
     margin-bottom: 20px;
-    /* Espacement entre les livres */
 }
 </style>
 
 
 <script>
 import axios from 'axios';
-
 export default {
     data() {
         return {
             //Objet qui stock les livres pour chaques catégorie
-            booksByCategory: {}
+            booksByCategory: {},
+            //Stock les détails du livre
+            selectedBook: null
         };
     },
 
@@ -134,6 +133,7 @@ export default {
             }
             return books;
         },
+
     }
 };
 </script>
