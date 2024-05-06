@@ -31,11 +31,10 @@ header{
     color: #fff;
     width: 100%;
     height: 175px;
-    
+    z-index: 100;
 }
 
 .logoLBpng{
-    margin-right: 0px;
     height: 150px;
     margin-right: 350px;
 }
