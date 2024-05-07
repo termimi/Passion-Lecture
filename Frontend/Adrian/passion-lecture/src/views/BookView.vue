@@ -1,9 +1,11 @@
 <script setup>
-import Book from '../components/Book.vue';
+import BookItem from '../components/BookItem.vue';
+import BookItemReviews from '@/components/BookItemReviews.vue';
 </script>
 
 <template>
   <main>
-    <Book></Book>
+    <BookItem></BookItem>
+    <BookItemReviews></BookItemReviews>
   </main>
 </template>

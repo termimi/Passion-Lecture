@@ -70,7 +70,7 @@ export default {
 
 <style scoped>
 .loginDiv{
-    background-color: black;
+    background-color: transparent;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -85,6 +85,7 @@ export default {
     justify-content: center;
     align-items: center;
     padding: 50px;
+    color: white;
     
 }
 .itemF{
@@ -102,6 +103,7 @@ export default {
     align-self: flex-start;
     color: white;
     font-size: large;
+    
 }
 .buttonSubmit{
     width: 200px;
@@ -110,5 +112,16 @@ export default {
     border-radius: 20px;
     background-color: #504c64;
     color : white;
+    border: 2px solid white;
+border-radius: 20px;
+cursor: pointer;
+
 }
+.itemPlaceholder{
+    color: white;
+}
+button:hover {
+  background-color: black;
+}
+
 </style>

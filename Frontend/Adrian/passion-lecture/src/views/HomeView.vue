@@ -6,6 +6,7 @@ import DescriptionLovbooks from '@/components/DescriptionLovbooks.vue';
 <template>
   <main>
     <BookDay/>
-    <DescriptionLovbooks/>
+    <DescriptionLovbooks />
   </main>
 </template>
+
