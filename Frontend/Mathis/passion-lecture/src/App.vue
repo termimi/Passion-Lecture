@@ -14,6 +14,7 @@ import HelloWorld from './components/HelloWorld.vue'
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/livre">Livre</RouterLink>
         <RouterLink to="/login">Login</RouterLink>
+        <RouterLink to="/createBook">Post</RouterLink>
       </nav>
     </div>
   </header>
