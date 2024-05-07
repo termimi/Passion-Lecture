@@ -1,10 +1,19 @@
 <template>
     <!--Formulaire de login sans recharger la page-->
-    <form @submit.prevent="login">
-        <input type="text" v-model="pseudo" placeholder="Pseudo">
-        <input type="password" v-model="password" placeholder="Mot de passe">
-        <button type="submit">Se connecter</button>
+    <form @submit.prevent="login" class="loginDiv">
+        <div class="titleFormuler">
+            <h1 style="color: white;" >Bienvenue !</h1>
+        </div>
+        <div class="bodyFormuler">
+            <div class="textF">Pseudo : </div>
+            <input type="text" class="itemF itemPlaceholder" v-model="pseudo" placeholder="Pseudo">
+            <div class="textF">Mot de pass : </div>
+            <input type="password" class="itemF itemPlaceholder" v-model="password" placeholder="Mot de passe">
+            <button type="submit" class="itemF buttonSubmit">Se connecter</button>
+        </div>
+        
     </form>
+
     <!--Bouton affichage info-->
     <button v-if="logged" @click="getBooks">Voir les livres</button>
 
@@ -57,3 +66,49 @@ export default {
 }
 
 </script>
+
+
+<style scoped>
+.loginDiv{
+    background-color: black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height:70vh;
+    width: 100%;
+    
+}
+.bodyFormuler{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 50px;
+    
+}
+.itemF{
+    margin : 15px;
+}
+.itemPlaceholder{
+    width: 400px;
+    padding: 15px;
+    border: 2px solid white;
+    border-radius: 20px;
+    outline: none;
+    background-color: transparent;
+}
+.textF{
+    align-self: flex-start;
+    color: white;
+    font-size: large;
+}
+.buttonSubmit{
+    width: 200px;
+    height: 40px;
+    border: none;
+    border-radius: 20px;
+    background-color: #504c64;
+    color : white;
+}
+</style>
