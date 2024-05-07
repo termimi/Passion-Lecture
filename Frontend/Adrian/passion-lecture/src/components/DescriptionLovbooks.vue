@@ -24,7 +24,7 @@ hr{
     margin-top: 20px;
 }
 .desc-text{
-    margin: 50px;
+    margin: 25px;
     width: 600px;
     align-self: center;
     text-align: center;

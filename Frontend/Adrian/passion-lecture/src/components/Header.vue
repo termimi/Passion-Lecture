@@ -8,7 +8,7 @@
         <nav>
             <ul class="menu">
                 <li><router-link to="/">Accueil</router-link></li>
-                <li><router-link to="/books">Livres</router-link></li>
+                <li><router-link to="/book">Livres</router-link></li>
                 <li><router-link to="/login">Connexion</router-link></li>
             </ul>
         </nav>
@@ -30,8 +30,10 @@ header{
     background-color: #000000;
     color: #fff;
     width: 100%;
-    height: 175px;
+    height: 125px;
     z-index: 100;
+    border-bottom: 1px solid white; 
+
 }
 
 .logoLBpng{
