@@ -6,7 +6,6 @@
             <input type="password" v-model="password" placeholder="Mot de passe">
             <button type="submit">Se connecter</button>
         </form>
-
     </div>
 </template>
 
@@ -19,8 +18,6 @@ export default {
         return {
             pseudo: '',
             password: '',
-            logged: false,
-            books: null
         };
     },
     // Connexion (requete à l'api)
@@ -34,7 +31,6 @@ export default {
                 });
                 // Connexion réussie
                 console.log('Connexion réussie', response);
-                this.logged = true;
             } catch (error) {
                 // Erreur de connexion
                 console.error('Erreur lors de la connexion :', error);
