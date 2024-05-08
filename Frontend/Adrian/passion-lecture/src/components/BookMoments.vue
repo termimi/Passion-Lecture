@@ -1,9 +1,9 @@
 <template>
-    <section class="list">
-        <div class="bookListComplet">
+    
+    <div class="booksMoment">
         <!-- Affichage des livres par catégorie -->
         <div v-for="(categoryBooks, categoryName) in booksByCategory" :key="categoryName">
-            <h2>{{ categoryName }} :</h2>
+            <h2>Livres du moments :</h2>
             <ul class="book-list">
                 <li v-for="book in categoryBooks" :key="book.id" class="book-item">
                     <div>
@@ -22,35 +22,22 @@
                     <router-link :to="{ name: 'bookItem', params: { id: book.id } }">Voir les détails</router-link>
                 </li>
             </ul>
-            <hr>
         </div>
     </div>
-    </section>
-    
 </template>
 
 <style scoped>
-.list{
+.booksMoment{
     display: flex;
     justify-content: center;
-}
-.bookListComplet{
-    display: flex;
-    flex-direction: column;
-    width: 1000px;
-    justify-self: center;
- 
-    
-}
-hr{
-    width: 1000px;
+    margin-bottom: 50px;
 }
 .book-list {
     list-style: none;
     padding: 0;
     display: flex;
     flex-wrap: wrap;
-    justify-content: start;
+    justify-content: center;
 }
 
 img {
@@ -58,6 +45,7 @@ img {
 }
 h2{
     color:white;
+    margin-bottom: 20px;
     
     
 }
@@ -95,8 +83,12 @@ export default {
 
                 //Prend chaque livre individuellement pour chaque catégorie
                 for (const category of categoriesResponse.data.data) {
-                    const books = await this.getBooksForCategory(category.id);
+                    if(category.id == 2){
+                        const books = await this.getBooksForCategory(category.id);
                     this.booksByCategory[category.name] = books;
+                    }
+                    
+                
                 }
 
                 //Message d'erreur    
