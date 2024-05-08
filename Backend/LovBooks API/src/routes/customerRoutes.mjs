@@ -9,7 +9,7 @@ import { auth } from "../auth/auth.mjs";
 const customersRouter = express();
 
 //Routes GET liste user
-customersRouter.get("/", auth, (req, res) => {
+customersRouter.get("/",  (req, res) => {
   if(req.query.pseudo){
     return Customer.findAll({
       where:{pseudo:{[Op.like]: `%${req.query.pseudo}%`}}
@@ -35,7 +35,7 @@ customersRouter.get("/", auth, (req, res) => {
 });
 
 //Routes GET user avec id
-customersRouter.get("/:id", auth, (req, res) => {
+customersRouter.get("/:id", (req, res) => {
   // Rechercher un user par sa clé primaire (id)
   Customer.findByPk(req.params.id)
 
@@ -59,7 +59,7 @@ customersRouter.get("/:id", auth, (req, res) => {
 });
 
 //Routes GET user avec id et tous ses livres
-customersRouter.get("/:id/books",auth, (req, res) => {
+customersRouter.get("/:id/books", (req, res) => {
   // Rechercher un user par sa clé primaire (id)
   Customer.findByPk(req.params.id)
 
@@ -88,7 +88,7 @@ customersRouter.get("/:id/books",auth, (req, res) => {
 
 
 //Routes POST user
-customersRouter.post("/", auth,(req, res) => {
+customersRouter.post("/", (req, res) => {
   //Créer un nouveaux user a partir des données
   Customer.create(req.body).then((createdUser) => {
     //createdUser.date_enter = new Data()
@@ -105,7 +105,7 @@ customersRouter.post("/", auth,(req, res) => {
 });
 
 //Routes PUT user
-customersRouter.put("/:id", auth,(req, res) => {
+customersRouter.put("/:id", (req, res) => {
   const customerId = req.params.id;
   Customer.update(req.body, { where: { id: customerId } })
     .then((_) => {
@@ -132,7 +132,7 @@ customersRouter.put("/:id", auth,(req, res) => {
     });
 });
 
-customersRouter.delete("/:id",auth, (req, res) => {
+customersRouter.delete("/:id", (req, res) => {
     // Rechercher un user par sa clé primaire (id)
     Customer.findByPk(req.params.id)
       .then((deletedCustomer) => {
