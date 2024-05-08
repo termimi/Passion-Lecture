@@ -8,7 +8,7 @@
         <nav>
             <ul class="menu">
                 <li><router-link to="/">Accueil</router-link></li>
-                <li><router-link to="/book">Livres</router-link></li>
+                <li><router-link to="/books">Livres</router-link></li>
                 <li><router-link to="/login">Connexion</router-link></li>
             </ul>
         </nav>
