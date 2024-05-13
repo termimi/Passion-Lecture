@@ -29,6 +29,10 @@
             <div>
                 <p>Résumé : {{ book.summary }}</p>
             </div>
+            <div>
+                <p v-if="comment">Commentaire : {{ user.pseudo }}:{{ comment.content }}</p>
+                <p v-else>Commentaire : Aucun commentaire trouvé</p>
+            </div>
         </div>
     </div>
 </template>
@@ -42,7 +46,9 @@ export default {
             book: null,
             author: null,
             publisher: null,
-            category: null
+            category: null,
+            comment: null,
+            user: null
         };
     },
     mounted() {
@@ -52,6 +58,7 @@ export default {
         // Prend les informations générales pour le livre
         async getBookDetails() {
             const bookId = this.$route.params.id;
+            localStorage.setItem('bookId', this.$route.params.id)
             try {
                 const response = await axios.get(`http://localhost:3000/api/books/${bookId}`);
                 this.book = response.data.data;
@@ -59,6 +66,8 @@ export default {
                 await this.getAuthorsNames(this.book.author_id);
                 await this.getPublisherNames(this.book.publisher_id);
                 await this.getCategoryNames(this.book.category_id);
+                await this.getComments(this.book.comment_id);
+                await this.getUserName(this.comment.customer_id);
 
             } catch (error) {
                 console.error('Erreur lors de la récupération des détails du livre :', error);
@@ -94,7 +103,28 @@ export default {
             } catch (error) {
                 console.error(`Erreur lors de la récupération de la catégorie du livre ${book.title} :`, error);
             }
-        }
+        },
+        //Prend les informations du commentaire du livre
+        async getComments(commentId) {
+            try {
+                // Requete GET pour récupérer les informations du commentaire
+                const response = await axios.get(`http://localhost:3000/api/comments/${commentId}`);
+                this.comment = response.data.data;
+            } catch (error) {
+                console.error(`Erreur lors de la récupération de la catégorie du livre ${book.title} :`, error);
+            }
+        },
+        //Prend les informations de l'utilisateur
+        async getUserName(userId) {
+            try {
+                // Requete GET pour récupérer les informations de l'utilisateur
+                const response = await axios.get(`http://localhost:3000/api/users/${userId}`);
+                this.user = response.data.data;
+            } catch (error) {
+                console.error(`Erreur lors de la récupération de la catégorie du livre ${book.title} :`, error);
+            }
+        },
+
     }
 };
 </script>

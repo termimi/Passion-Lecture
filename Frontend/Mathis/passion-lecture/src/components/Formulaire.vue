@@ -29,6 +29,7 @@ export default {
                     pseudo: this.pseudo,
                     password: this.password
                 });
+                localStorage.setItem('userId', response.data.data.id)
                 // Connexion réussie
                 console.log('Connexion réussie', response);
             } catch (error) {

@@ -110,7 +110,6 @@ export default {
                     //GET pour récupérer les informations de l'auteur
                     const response = await axios.get(`http://localhost:3000/api/authors/${book.author_id}`);
                     book.author = response.data.data;
-
                 }
                 catch (error) {
                     console.error(`Erreur lors de la récupération de l'auteur du livre ${book.title} :`, error);
