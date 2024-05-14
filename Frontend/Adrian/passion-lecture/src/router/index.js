@@ -3,7 +3,9 @@ import HomeView from '../views/HomeView.vue'
 import Details from '@/components/Details.vue'
 import BookItem from '@/components/BookItem.vue'
 import Profile from '../views/UserView.vue'
+import ProfileAdmin from '../views/UserViewAdmin.vue'
 import NewBook from '../views/UserNewBook.vue'
+import UsersList from '../views/UsersListView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -47,9 +49,19 @@ const router = createRouter({
       component: Profile
     },
     {
+      path:'/profileAdmin',
+      name:'ProfileAdmin',
+      component: ProfileAdmin
+    },
+    {
       path:'/newBook',
       name:'NewBook',
       component: NewBook
+    },
+    {
+      path:'/usersList',
+      name:'UsersList',
+      component: UsersList
     }
   ]
 })

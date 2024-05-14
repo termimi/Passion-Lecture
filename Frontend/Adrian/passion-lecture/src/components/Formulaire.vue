@@ -12,17 +12,9 @@
             <input type="password" class="itemF itemPlaceholder" v-model="password" placeholder="Mot de passe">
             <button type="submit" class="itemF buttonSubmit">Se connecter</button>
             
-        </div>
-        
+        </div>    
     </form>
-    <div>
-    <!-- Affichage des livres -->
-    <div v-if="books">
-      <h2>Liste de livres:</h2>
-      <ul>
-        <li>Nom d'utilisateur:{{books}}</li>
-      </ul>
-    </div>
+    <div>    
   </div>
 </template>
 
@@ -37,7 +29,9 @@ export default {
             pseudo: '',
             password: '',
             logged: false,
-            books: null
+            books: null,
+            admin: null,
+
         };
     },
     
@@ -48,22 +42,28 @@ export default {
             //Requete à l'api en envoyant nos données
             await axios.post('http://localhost:3000/api/login/', {
                 pseudo: this.pseudo,
-                password: this.password
+                password: this.password,
+                admin: this.admin
                 //Reponse de l'api
             }).then((response) => {
                 console.log('Connexion réussite',response);
                 this.logged = true;
-                router.push({ name: 'Profile' }); // Ajusta 'Profile' con el nombre de tu ruta de perfil
-                
+                if(this.pseudo!="etml"){
+                    router.push({ name: 'Profile' }); 
+
+                }
+                else{
+                    router.push({ name: 'ProfileAdmin' }); 
+
+                }
+                localStorage.setItem('userId', response.data.data.id)
+
                 //Erreur de l'api
             }).catch((error) => {
                 console.error('Erreur lors de la connexion :', error);
             });
         },
-        async getBooks() {
-            const response = await axios.get('http://localhost:3000/api/categorys/6/books');
-            this.books = response.data;
-        }
+
     }
 }
 

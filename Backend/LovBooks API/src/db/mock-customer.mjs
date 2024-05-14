@@ -64,6 +64,7 @@ let customers = [
     pseudo: "etml",
     date_enter: new Date("2009-08-12"),
     password: "etml",
+    admin: true,
   },
 ];
 

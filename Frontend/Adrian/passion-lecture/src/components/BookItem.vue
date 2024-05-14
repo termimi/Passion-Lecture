@@ -28,6 +28,8 @@ import axios  from 'axios';
                 // Prend les informations générales pour le livre
                 async getBookDetails() {
             const bookId = this.$route.params.id;
+            localStorage.setItem('bookId', this.$route.params.id);
+
             try {
                 const response = await axios.get(`http://localhost:3000/api/books/${bookId}`);
                 this.book = response.data.data;
@@ -70,6 +72,9 @@ import axios  from 'axios';
             } catch (error) {
                 console.error(`Erreur lors de la récupération de la catégorie du livre ${book.title} :`, error);
             }
+        },
+        redirectToExtract() {
+            window.location.href = this.book.extract_pdf;
         }
     }
 };
@@ -89,7 +94,9 @@ import axios  from 'axios';
                     <li>Editeur : {{ publisher.name }}</li>
                     <li>Année d'édition : </li>
                     <li>Nombre de pages : {{ book.number_of_pages }}</li>
-                    <li>Extrait : {{ book.extract_pdf }}</li>
+                    <li>
+                    <a @click="redirectToExtract">{{ book.extract_pdf }}</a>
+                    </li>                    
                     <li>Nombre appreciation : </li>
                     <li>Moyenne appreciation : {{ book.average_ratings }}</li>
                     <li>Résumé : {{ book.summary }}</li>

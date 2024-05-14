@@ -27,9 +27,10 @@ footer{
     background-color: #504c64;
     color: #fff ;
     padding: 20px;
-    position: relative;
+    position:relative;
     bottom: 0;
     left: 0;
+    width: 100%;
 }
 .footer-info{
     max-width: 1200px;
