@@ -1,4 +1,5 @@
 <template>
+
     <!--Formulaire de login sans recharger la page-->
     <form @submit.prevent="login" class="loginDiv">
         <div class="titleFormuler">
@@ -10,12 +11,13 @@
             <div class="textF">Mot de pass : </div>
             <input type="password" class="itemF itemPlaceholder" v-model="password" placeholder="Mot de passe">
             <button type="submit" class="itemF buttonSubmit">Se connecter</button>
+            
         </div>
         
     </form>
 
     <!--Bouton affichage info-->
-    <button v-if="logged" @click="getBooks">Voir les livres</button>
+    <button v-if="logged" @click="getBooks"><router-link to="/profile">Accueil</router-link></button>
 
     <div>
     <!-- Affichage des livres -->
@@ -31,6 +33,7 @@
 <script>
 //Import de axios pour effectuer des requetes http
 import axios from 'axios';
+import router from '../router/index.js';
 
 export default {
     data() {
@@ -41,6 +44,7 @@ export default {
             books: null
         };
     },
+    
     //Connexion (requete à l'api)
     methods: {
         async login() {
@@ -53,6 +57,8 @@ export default {
             }).then((response) => {
                 console.log('Connexion réussite',response);
                 this.logged = true;
+                router.push({ name: 'Profile' }); // Ajusta 'Profile' con el nombre de tu ruta de perfil
+                
                 //Erreur de l'api
             }).catch((error) => {
                 console.error('Erreur lors de la connexion :', error);
