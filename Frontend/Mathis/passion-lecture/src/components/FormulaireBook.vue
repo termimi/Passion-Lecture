@@ -36,7 +36,7 @@
             </div>
             <div>
                 <label for="image">Image:</label>
-                <textarea id="image" v-model="image" required></textarea>
+                <input type="file" id="image" accept="image/*" @change="takeImage" required>
             </div>
             <button type="submit">Ajouter</button>
         </form>
@@ -51,7 +51,6 @@ export default {
         return {
             formData: {
                 title: '',
-                category: '',
                 pages: 0,
                 author: '',
                 publisher: '',
@@ -69,6 +68,22 @@ export default {
             try {
                 let authorId = null;
                 let publisherId = null;
+                let categoryId = null;
+
+                //Vérifie si une catégorie est créer
+                const categoryWasCreated = await this.checkCreatedCategory(this.category);
+                if (categoryWasCreated) {
+                    categoryId = categoryWasCreated.id
+                    console.log("Category déja créer", categoryId)
+                }
+                //Créer la catégorie
+                else {
+                    console.log("Catégorie inconnu")
+                    const categoryInfo = await this.CreateCategory(this.category);
+                    categoryId = categoryInfo.id;
+                    console.log(categoryId)
+                }
+
                 //Vérifie si un auteur est créer
                 const authorWasCreated = await this.checkCreatedAuthor(this.author);
                 if (authorWasCreated) {
@@ -78,7 +93,9 @@ export default {
                 //Créer l'auteur
                 else {
                     console.log("Auteur inconnu")
-                    this.CreateAuthor(this.author);
+                    const authorInfo = await this.CreateAuthor(this.author);
+                    authorId = authorInfo.id;
+
                 }
 
                 //Vérifie si un éditeur est créer
@@ -92,25 +109,33 @@ export default {
                 //Créer l'éditeur
                 else {
                     console.log("Editeur inconnu")
-                    this.CreatePublisher(this.publisher);
+                    const publisherInfo = await this.CreatePublisher(this.publisher)
+                    publisherId = publisherInfo.id;
+
                 }
 
+                const userId = localStorage.getItem('userId')
+
                 //Requete post afin de créer un nouveau livre
-                const response = await axios.post('http://localhost:3000/api/books', {
+                const response = await axios.post('http://localhost:3000/api/books/', {
                     title: this.title,
+                    category_id: categoryId,
                     number_of_pages: this.pages,
                     author_id: authorId,
-                    editor_id: editorId,
+                    publisher_id: publisherId,
                     year_of_publication: this.year,
                     cover_image: this.image,
                     extract_pdf: this.pdf,
-                    summary: this.summary
+                    summary: this.summary,
+                    comment_id: null,
+                    average_ratings: null,
+                    assessment_id: null,
+                    customer_id: userId
                 });
                 console.log(response);
 
                 // Remet les valeurs par défaults
                 this.title = '';
-                this.category = '';
                 this.pages = 0;
                 this.author = '';
                 this.publisher = '';
@@ -124,6 +149,18 @@ export default {
                 return null;
             }
 
+        },
+        //Vérifie si la catégorie est déja créer
+        async checkCreatedCategory(name) {
+            try {
+                const response = await axios.get(`http://localhost:3000/api/categorys?name=${name}`);
+                //Si la categorie est trouvé on renvoie son id
+                return response.data.data.length > 0 ? response.data.data[0] : null;
+
+            } catch (error) {
+                console.error(`Erreur lors de la vérification de l'existence de la catégorie:`, error);
+                return null;
+            }
         },
         //Vérifie si l'auteur est déja créer
         async checkCreatedAuthor(name) {
@@ -148,13 +185,29 @@ export default {
                 return null;
             }
         },
+        //Créer la catégorie
+        async CreateCategory(name) {
+            try {
+                const response = await axios.post('http://localhost:3000/api/categorys/', {
+                    name: name,
+                });
+                console.log(response);
+
+                return response.data.data
+            } catch (error) {
+                console.error(`Erreur lors de la création de la categorie}:`, error);
+            }
+        },
         //Créer l'auteur
         async CreateAuthor(name) {
             try {
                 const response = await axios.post('http://localhost:3000/api/authors/', {
                     name: name,
+                    first_name: "Author"
                 });
                 console.log(response);
+
+                return response.data.data
             } catch (error) {
                 console.error(`Erreur lors de la création de l'auteur}:`, error);
             }
@@ -165,14 +218,24 @@ export default {
                 const response = await axios.post('http://localhost:3000/api/publishers/', {
                     name: name
                 });
-                console.log(response);
+
+                return response.data.data
+
             } catch (error) {
                 console.error(`Erreur lors de la création de l'éditeur}:`, error);
             }
         },
         //Charge les pdfs depuis le gestionnaire de fichier
         takePdf(event) {
-            this.pdf = event.target.files[0];
+            const selectedFile = event.target.files[0];
+            const filePath = URL.createObjectURL(selectedFile);
+            this.pdf = filePath;
+        },
+        //Charge les images depuis le gestionnaire de fichier
+        takeImage(event) {
+            const selectedFile = event.target.files[0];
+            const filePath = URL.createObjectURL(selectedFile);
+            this.image = filePath;
         }
     }
 };
