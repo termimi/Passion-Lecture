@@ -43,6 +43,7 @@ import axios from 'axios';
 export default {
     data() {
         return {
+            token: localStorage.getItem('token'),
             book: null,
             author: null,
             publisher: null,
@@ -52,7 +53,15 @@ export default {
         };
     },
     mounted() {
-        this.getBookDetails();
+        //Vérification connexion
+        if (!this.token) {
+            alert("Vous n'êtes pas autorisé à accéder à cette page !");
+            this.$router.push({ name: 'home' });
+        }
+        else {
+            this.getBookDetails();
+        }
+
     },
     methods: {
         // Prend les informations générales pour le livre

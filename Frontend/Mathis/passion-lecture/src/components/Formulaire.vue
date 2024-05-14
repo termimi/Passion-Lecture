@@ -30,6 +30,7 @@ export default {
                     password: this.password
                 });
                 localStorage.setItem('userId', response.data.data.id)
+                localStorage.setItem('token', response.data.token);
                 // Connexion réussie
                 console.log('Connexion réussie', response);
             } catch (error) {
