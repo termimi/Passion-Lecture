@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import Details from '@/components/Details.vue'
 import BookItem from '@/components/BookItem.vue'
+import Profile from '../views/UserView.vue'
+import NewBook from '../views/UserNewBook.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -38,6 +40,16 @@ const router = createRouter({
       path: '/books/:id',
       name: 'bookItem',
       component: BookItem
+    },
+    {
+      path:'/profile',
+      name:'Profile',
+      component: Profile
+    },
+    {
+      path:'/newBook',
+      name:'NewBook',
+      component: NewBook
     }
   ]
 })
