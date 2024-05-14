@@ -1,5 +1,6 @@
 <template>
     <!-- Formulario de agregar libro -->
+
     <form @submit.prevent="addBook" class="loginDiv">
         <div class="titleFormuler">
             <h1 style="color: white;">Ajouter un livre</h1>
@@ -27,3 +28,9 @@
         </div>
     </form>
 </template>
+
+<script>
+</script>
+<style scoped>
+
+</style>

@@ -15,10 +15,6 @@
         </div>
         
     </form>
-
-    <!--Bouton affichage info-->
-    <button v-if="logged" @click="getBooks"><router-link to="/profile">Accueil</router-link></button>
-
     <div>
     <!-- Affichage des livres -->
     <div v-if="books">
