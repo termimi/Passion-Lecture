@@ -5,20 +5,22 @@
     <section class="profile">
         <section class="title">
         <h1>
-            Mon profil
+            Mon profil : {{ user.pseudo }}
         </h1>
     </section>
     <section class="bodyProfil">
         <h1 class="profilBooks">Mes ouvrages : </h1>
         <div class="booksList">
-            <ul>
-                <li>
-                    <div class="TitleBook"> Harry Potter 1 </div>
+            <ul>        
+                <li v-for="book in books" :key="book.id">
+                    <p>Book Title: {{ book.title }}</p>
                     <div class="Options">
-                        <button class="deleteButton">Supprimer</button>
-                        <button>Modifier</button>
+                        <button class="deleteButton" @click="deleteBook(book.id)" >Supprimer</button>
+                        <button @click="editBookInfo(book.id)">Modifier</button>
                     </div>
                 </li>
+        
+               
             </ul>    
         </div>
     </section>
@@ -28,6 +30,68 @@
     </section>
     
 </template>
+
+<script>
+import axios from 'axios';
+
+export default {
+  data() {
+    return {
+      user: {
+        pseudo: '',
+        
+      },
+      books: []
+    };
+  },
+  async created() {
+    const userId = localStorage.getItem('userId');
+    if (userId) {
+      await this.fetchUserInfo(userId);
+      await this.fetchUserBooks(userId);
+    }
+  },
+  methods: {
+    async fetchUserInfo(userId) {
+      try {
+        const response = await axios.get(`http://localhost:3000/api/users/${userId}`);
+        this.user = response.data.data; 
+      } catch (error) {
+        console.error('Error al recuperar información del usuario:', error);
+      }
+    },
+    async fetchUserBooks(userId) {
+      try {
+        const response = await axios.get('http://localhost:3000/api/books/');
+        const booksR = response.data.data;
+        //this.books = responseBook.data.data.filter(book => book.customer_id === userId); 
+        console.log(booksR[0].customer_id)
+        this.books = booksR.filter(book => book.customer_id == userId)
+        console.log('Libros filtrados:', this.books);
+
+      } catch (error) {
+        console.error('Error al recuperar libros del usuario:', error);
+      }
+    },
+    async deleteBook(bookId) {
+      try {
+        await axios.delete(`http://localhost:3000/api/books/${bookId}`);
+        console.log('Libro eliminado exitosamente');
+        // Vuelve a cargar los libros después de eliminar el libro
+        await this.fetchUserBooks(localStorage.getItem('userId'));
+      } catch (error) {
+        console.error('Error al eliminar el libro:', error);
+      }
+    },
+    editBookInfo(bookId) {
+      // Redirige a la página de edición de información del libro
+      this.$router.push({ name: 'EditBookInfo', params: { id: bookId }});
+    }
+    
+  }
+};
+</script>
+
 
 <style scoped>
 .title{

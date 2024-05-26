@@ -30,8 +30,7 @@ export default {
             password: '',
             logged: false,
             books: null,
-            admin: null,
-
+            admin: false,
         };
     },
     
@@ -43,20 +42,21 @@ export default {
             await axios.post('http://localhost:3000/api/login/', {
                 pseudo: this.pseudo,
                 password: this.password,
-                admin: this.admin
                 //Reponse de l'api
             }).then((response) => {
                 console.log('Connexion réussite',response);
+                const adminRes = response.data.data.admin;
+                console.log(adminRes)
                 this.logged = true;
-                if(this.pseudo!="etml"){
-                    router.push({ name: 'Profile' }); 
+                localStorage.setItem('userId', response.data.data.id)
 
+                if(!adminRes){
+                    router.push({ name: 'Profile' }); 
                 }
                 else{
                     router.push({ name: 'ProfileAdmin' }); 
 
                 }
-                localStorage.setItem('userId', response.data.data.id)
 
                 //Erreur de l'api
             }).catch((error) => {

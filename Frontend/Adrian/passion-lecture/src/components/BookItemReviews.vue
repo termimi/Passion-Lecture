@@ -35,6 +35,8 @@ export default {
       try{
         const userId = localStorage.getItem('userId')
         const bookId = localStorage.getItem('bookId')
+        const bookData = await axios.get(`http://localhost:3000/api/books/${bookId}`)
+
         const commentText = await axios.get(`http://localhost:3000/api/comments/${bookId}`)
       
                 //Acabar en casa

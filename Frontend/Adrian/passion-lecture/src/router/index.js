@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import Details from '@/components/Details.vue'
 import BookItem from '@/components/BookItem.vue'
+import EditBookInfo from '@/components/EditBookInfo.vue'
+
 import Profile from '../views/UserView.vue'
 import ProfileAdmin from '../views/UserViewAdmin.vue'
 import NewBook from '../views/UserNewBook.vue'
@@ -62,6 +64,11 @@ const router = createRouter({
       path:'/usersList',
       name:'UsersList',
       component: UsersList
+    },
+    {
+      path:'/editBook',
+      name:'EditBookInfo',
+      component: EditBookInfo
     }
   ]
 })

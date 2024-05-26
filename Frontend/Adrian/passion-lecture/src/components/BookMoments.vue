@@ -1,5 +1,4 @@
 <template>
-    
     <div class="booksMoment">
         <!-- Affichage des livres par catégorie -->
         <div v-for="(categoryBooks, categoryName) in booksByCategory" :key="categoryName">
