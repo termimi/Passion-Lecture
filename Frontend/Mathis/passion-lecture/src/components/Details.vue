@@ -75,9 +75,15 @@ export default {
                 await this.getAuthorsNames(this.book.author_id);
                 await this.getPublisherNames(this.book.publisher_id);
                 await this.getCategoryNames(this.book.category_id);
+
+                localStorage.setItem('authorName', this.author.name);
+                localStorage.setItem('publisherName', this.publisher.name);
+                localStorage.setItem('categoryName', this.category.name);
+
                 await this.getComments(this.book.comment_id);
                 await this.getUserName(this.comment.customer_id);
 
+                
             } catch (error) {
                 console.error('Erreur lors de la récupération des détails du livre :', error);
             }
@@ -88,6 +94,7 @@ export default {
                 // Requête GET pour récupérer les informations de l'auteur
                 const response = await axios.get(`http://localhost:3000/api/authors/${authorId}`);
                 this.author = response.data.data;
+
             } catch (error) {
                 console.error(`Erreur lors de la récupération de l'auteur :`, error);
             }
