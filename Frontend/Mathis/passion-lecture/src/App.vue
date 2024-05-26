@@ -16,6 +16,8 @@ import HelloWorld from './components/HelloWorld.vue'
         <RouterLink to="/login">Login</RouterLink>
         <RouterLink to="/createComment">Commentaire</RouterLink>
         <RouterLink to="/createBook">Ajouter un livre</RouterLink>
+        <RouterLink to="/profil">Mon profil</RouterLink>
+        <RouterLink to="/update">Modifier un livre</RouterLink>
       </nav>
     </div>
   </header>
