@@ -128,6 +128,7 @@ const importCustomers = () => {
       pseudo: customer.pseudo,
       date_enter: customer.date_enter,
       password: customer.password,
+      admin: customer.admin,
     }).then((customer) => console.log(customer.toJSON()));
   });
 };

@@ -85,7 +85,11 @@ const options = {
                         password: {              
                             type: "string",              
                             description: "Le mot de passe de l'utilisateur.",            
-                        },   
+                        },  
+                        admin:{
+                            type: "bool",              
+                            description: "Admin confirmation",                                    
+                        } 
                     }
                 },
                 Author:{

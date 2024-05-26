@@ -47,6 +47,11 @@ const CustomerModelTable = (sequelize, DataTypes) => {
           },
         },
       },
+      admin: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        
+      },
     },
     // Colonne créer automiquement
     {
