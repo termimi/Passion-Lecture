@@ -19,24 +19,51 @@ export default {
         comment: ""
       },
       commentsBook:{},
-      
+      comments: [], 
+      users: {}, 
     };
   },
+  computed: {
+    commentsWithUser() {
+      return this.comments.map(comment => {
+        return {
+          ...comment,
+          user: this.users[comment.customer_id] || {} 
+        };
+      });
+    }
+  },
+  async created() {
+    await this.loadComments();
+  },
   methods: {
-    addReview() {
-      this.$emit("add-review", this.newReview);
-      this.newReview = {
-        user: "",
-        rating: 0,
-        comment: ""
-      };
+    async loadComments() {
+      try {
+        const response = await axios.get('http://localhost:3000/api/comments/');
+        this.comments = response.data.data; // Asigna los comentarios a la propiedad `comments`
+        await this.loadUsers(); // Carga la información de los usuarios después de cargar los comentarios
+      } catch (error) {
+        console.error('Error al cargar los comentarios:', error);
+      }
     },
-    async getComment(){
+    async loadUsers() {
+      try {
+        const userIds = [...new Set(this.comments.map(comment => comment.customer_id))]; // Extrae los IDs únicos de los usuarios
+        const userRequests = userIds.map(id => axios.get(`http://localhost:3000/api/users/${id}`));
+        const userResponses = await Promise.all(userRequests); // Realiza solicitudes paralelas para todos los usuarios
+
+        userResponses.forEach(response => {
+          this.users[response.data.data.id] = response.data.data; // Asigna cada usuario al objeto `users` por su ID
+        });
+      } catch (error) {
+        console.error('Error al cargar la información de los usuarios:', error);
+      }
+    }
+    ,
+    async getComments(){
       try{
         const userId = localStorage.getItem('userId')
         const bookId = localStorage.getItem('bookId')
-        const bookData = await axios.get(`http://localhost:3000/api/books/${bookId}`)
-
         const commentText = await axios.get(`http://localhost:3000/api/comments/${bookId}`)
       
                 //Acabar en casa
@@ -112,50 +139,14 @@ export default {
 </script>
 
 <template>
-    <div class="reviews">
-        <div class="review-form">
-        <h3>Ajouter un commentaire: </h3>
-        <textarea v-model="newReview.comment" placeholder="Comentaire" class="commentPlaceholder"></textarea>
 
-        
-        <div class="reviewSubmit">
-            <div class="reviewNoteChose">                
-                <h3>Note :</h3>
-                <select v-model="newReview.rating">
-                    <option value="0">0</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                </select>
-            </div>
-            
-            <button @click="addReview" class="reviewButton">Ajouter</button>
-        </div>
-
-    </div>
-    <h3 class="commentsTitle">Commentaires </h3>
-      <div class="review-grid">
-        
-        <div class="review-container">        
-            <div class="review">
-                <div class="reviewUserData">
-                    <p class="reviewUser">MyMiggi6661 : </p>
-                    <p class="reviewNote">5/5</p>
-                </div>
-                
-                <p class="reviewText">My favourite book !</p> 
-            </div>
-        </div>        
-      </div>      
-    </div>
-    <div>
+<div class="reviews">
+  <div class="review-form">
         <!-- Formulaire de post pour un livre -->
-        <h2>Poster un commentaire</h2>
+        <h3>Poster un commentaire</h3>
         <form @submit.prevent="postComment">
             <label for="content">Contenu :</label><br>
-            <textarea id="content" v-model="commentContent" required></textarea><br>
+            <textarea id="content" v-model="commentContent" required class="commentPlaceholder"></textarea><br>
             <label for="rating">Note : </label>
             <select id="rating" v-model="commentRating">
                 <option value="1">1</option>
@@ -165,9 +156,24 @@ export default {
                 <option value="5">5</option>
             </select><br>
 
-            <button type="submit">Poster</button>
+            <button type="submit" class="reviewButton">Poster</button>
         </form>
     </div>
+</div>
+    
+    <div class="reviews">
+    <h3 class="commentsTitle">Commentaires</h3>
+    <div class="review-grid">
+      <div class="review-container" v-for="comment in commentsWithUser" :key="comment.id">
+        <div class="review">
+          <div class="reviewUserData">
+            <p class="reviewUser">{{ comment.user.pseudo }} :</p>
+          </div>
+          <p class="reviewText">{{ comment.content }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <style scoped>
@@ -223,6 +229,7 @@ h3{
   border: 2px solid white;
 border-radius: 20px;
   cursor: pointer;
+  margin-left: 210px;
 }
 
 .review-form button:hover {

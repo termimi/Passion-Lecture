@@ -13,11 +13,7 @@
         <div class="booksList">
             <ul>
                 <li>
-                    <div class="TitleBook"> Harry Potter 1 </div>
-                    <div class="Options">
-                        <button class="deleteButton">Supprimer</button>
-                        <button>Modifier</button>
-                    </div>
+                    
                 </li>
             </ul>    
         </div>
@@ -53,6 +49,9 @@
 }
 .deleteButton{
     background-color: red
+}
+.deleteButton:hover{
+    background-color: black
 }
 .profile{
     display: flex;

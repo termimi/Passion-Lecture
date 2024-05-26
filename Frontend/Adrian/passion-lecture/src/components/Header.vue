@@ -9,16 +9,42 @@
             <ul class="menu">
                 <li><router-link to="/">Accueil</router-link></li>
                 <li><router-link to="/books">Livres</router-link></li>
-                <li><router-link to="/login">Connexion</router-link></li>
-            </ul>
+                <li><router-link :to="profileRoute">{{ profileLinkText }}</router-link></li>            </ul>
         </nav>
     </header>
 </template>
 
 <script>
-export default{
-    name : 'Header'
-}
+import axios from 'axios';
+
+export default {
+  name: 'Header',
+  data() {
+    return {
+      profileRoute: '/login',
+      profileLinkText: 'Connexion'
+    };
+  },
+  async created() {
+    const userId = localStorage.getItem('userId');
+    if (userId) {
+      try {
+        const response = await axios.get(`http://localhost:3000/api/users/${userId}`);
+        const user = response.data.data;
+        
+        if (user.admin) {
+          this.profileRoute = '/ProfileAdmin';
+        } else {
+          this.profileRoute = '/Profile';
+        }
+        
+        this.profileLinkText = 'Mon Profil';
+      } catch (error) {
+        console.error('Error al recuperar la información del usuario:', error);
+      }
+    }
+  }
+};
 </script>
 
 <style scoped>

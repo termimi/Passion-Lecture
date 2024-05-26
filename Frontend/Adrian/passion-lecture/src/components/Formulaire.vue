@@ -49,6 +49,7 @@ export default {
                 console.log(adminRes)
                 this.logged = true;
                 localStorage.setItem('userId', response.data.data.id)
+                localStorage.setItem('token', response.data.token);
 
                 if(!adminRes){
                     router.push({ name: 'Profile' }); 

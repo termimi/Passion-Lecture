@@ -6,27 +6,34 @@ import BookItemReviews from '@/components/BookItemReviews.vue';
 <script>
 import axios  from 'axios';
 
-    export default{
-        component:{
-  },
+export default{
     data(){
         return{
+            token: localStorage.getItem('token'),
             showDetails:false,
             book: null,
             author: null,
             publisher: null,
-            category: null
+            category: null,
+            user: null,
         };
     },
     mounted() {
-        this.getBookDetails();
+        if (!this.token) {
+            alert("Vous n'êtes pas autorisé à accéder à cette page !");
+            this.$router.push({ name: 'home' });
+        }
+        else {
+            this.getBookDetails();
+        }
     },
     methods:{
         showMoreDetails(){
             this.showDetails = !this.showDetails;
         },
                 // Prend les informations générales pour le livre
-                async getBookDetails() {
+                
+        async getBookDetails() {
             const bookId = this.$route.params.id;
             localStorage.setItem('bookId', this.$route.params.id);
 
@@ -37,6 +44,12 @@ import axios  from 'axios';
                 await this.getAuthorsNames(this.book.author_id);
                 await this.getPublisherNames(this.book.publisher_id);
                 await this.getCategoryNames(this.book.category_id);
+
+                localStorage.setItem('authorName', this.author.name);
+                localStorage.setItem('publisherName', this.publisher.name);
+                localStorage.setItem('categoryName', this.category.name);
+                await this.getUserName(this.book.customer_id);
+                console.log(this.user)
 
             } catch (error) {
                 console.error('Erreur lors de la récupération des détails du livre :', error);
@@ -75,7 +88,18 @@ import axios  from 'axios';
         },
         redirectToExtract() {
             window.location.href = this.book.extract_pdf;
-        }
+        },
+        async getUserName(userId) {
+            try {
+                // Requete GET pour récupérer les informations de l'utilisateur
+                const response = await axios.get(`http://localhost:3000/api/users/${userId}`);
+                const userR = response.data.data;
+                this.user = userR.pseudo;
+                console.log(this.user)
+            } catch (error) {
+                console.error(`Erreur lors de la récupération de la catégorie du livre  :`, error);
+            }
+        },
     }
 };
 </script>
@@ -97,9 +121,9 @@ import axios  from 'axios';
                     <li>
                     <a @click="redirectToExtract">{{ book.extract_pdf }}</a>
                     </li>                    
-                    <li>Nombre appreciation : </li>
                     <li>Moyenne appreciation : {{ book.average_ratings }}</li>
                     <li>Résumé : {{ book.summary }}</li>
+                    <li>Utilisateur: {{ user }}</li>
                 </ul>
             </div>        
         </div>
@@ -154,12 +178,20 @@ import axios  from 'axios';
 .more-details ul li {
   margin-bottom: 5px;
 }
-.bookItemButton{
+.bookItemButton  {
+  background-color: #504c64;
+  color: white;
+  height: 50px;
+  padding: 8px 16px;
+  border: 2px solid white;
+border-radius: 20px;
+  cursor: pointer;
+  margin-left: 210px;
+}
 
-    width: 100px;
-    height: 40px;
-    border: none;
-    border-radius: 20px;
-    background-color: white;
-    color : black;}
+.bookItemButton:hover {
+  background-color: black;
+}
+
+
 </style>

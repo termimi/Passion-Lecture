@@ -119,6 +119,9 @@ export default {
 .deleteButton{
     background-color: red
 }
+.deleteButton:hover{
+    background-color: black
+}
 .profile{
     display: flex;
     flex-direction: column;
@@ -131,4 +134,5 @@ export default {
     justify-content: right;
     align-items: right;
 }
+
 </style>

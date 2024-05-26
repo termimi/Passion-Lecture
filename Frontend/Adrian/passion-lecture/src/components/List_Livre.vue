@@ -1,6 +1,11 @@
 <template>
     <section class="list">
+        <div class="title">
+                <h1>Livres</h1>
+        </div>
+
         <div class="bookListComplet">
+            
         <!-- Affichage des livres par catégorie -->
         <div v-for="(categoryBooks, categoryName) in booksByCategory" :key="categoryName">
             <h2>{{ categoryName }} :</h2>
@@ -33,6 +38,8 @@
 .list{
     display: flex;
     justify-content: center;
+    flex-direction: column;
+    align-items: center;
 }
 .bookListComplet{
     display: flex;
@@ -42,8 +49,22 @@
  
     
 }
+.title{
+    width: 100%;
+    text-align: center;
+    background-color: #504c64;
+    height: 200px;
+    border-bottom: 1px solid white; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 25px;
+    }
 hr{
     width: 1000px;
+}
+h1{
+    color: white;
 }
 .book-list {
     list-style: none;

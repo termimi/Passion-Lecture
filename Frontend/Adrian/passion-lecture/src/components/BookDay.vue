@@ -87,7 +87,7 @@ import axios  from 'axios';
                 </div>
                 <p style="color: white;" >{{book.summary}}</p>
                 <button class="buttonBookDay">
-                    <router-link :to="{ name: 'bookItem', params: { id: book.id } }">Voir les détails</router-link>
+                    <router-link  class="buttonColor" :to="{ name: 'bookItem', params: { id: book.id } }">Voir les détails</router-link>
                 </button> 
             </div>            
         </div>
@@ -109,7 +109,8 @@ import axios  from 'axios';
 
       
 }
-
+.buttonColor:hover{
+}
 .book-details{
     color: black;
     display: flex;
@@ -137,14 +138,23 @@ import axios  from 'axios';
     background-size: cover;
     
 }
-.buttonBookDay{
+
+
+
+button{
+      background-color: #504c64;
+    color: white;
+    height: 50px;
+    padding: 8px 16px;
+    border: 2px solid white;
+  border-radius: 20px;
+    cursor: pointer;
+    margin-top: 15px;
+    margin-bottom: 20px;
     margin-left: 300px; 
     margin-top:100px;
-    width: 100px;
-    height: 40px;
-    border: none;
-    border-radius: 20px;
-    background-color: white;
-    color : black;
-}
+  }
+  button:hover{
+      background-color: black;
+  }
 </style>
