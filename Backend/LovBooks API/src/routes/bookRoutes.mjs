@@ -45,6 +45,22 @@ booksRouter.get("/:id", (req, res) => {
         })
 })
 
+//Récupere les 6 dernier livres
+booksRouter.get('/latest/latest', (req, res) => {
+    Book.findAll({
+        order: [['created', 'DESC']],
+        limit: 6                        
+    })
+    .then((books) => {
+        const message = "Les six derniers livres ont été récupérés avec succès.";
+        res.json(success(message, books));
+    })
+    .catch((error) => {
+        const message = "Une erreur est survenue lors de la récupération des derniers livres.";
+        res.status(500).json({ message, data: error });
+    });
+});
+
 //Recherche avec id et ses comments
 booksRouter.get("/:id/comments", (req, res) => {
     Book.findByPk(req.params.id)

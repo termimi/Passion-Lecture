@@ -66,7 +66,7 @@ const router = createRouter({
       component: UsersList
     },
     {
-      path:'/editBook',
+      path:'/editBook/:bookId',
       name:'EditBookInfo',
       component: EditBookInfo
     }
