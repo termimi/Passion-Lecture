@@ -227,7 +227,7 @@ h3{
   height: 50px;
   padding: 8px 16px;
   border: 2px solid white;
-border-radius: 20px;
+  border-radius: 20px;
   cursor: pointer;
   margin-left: 210px;
 }

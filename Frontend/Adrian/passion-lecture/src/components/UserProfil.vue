@@ -16,7 +16,7 @@
                     <p>Book Title: {{ book.title }}</p>
                     <div class="Options">
                         <button class="deleteButton" @click="deleteBook(book.id)" >Supprimer</button>
-                        <button @click="editBookInfo(book.id)">Modifier</button>
+                        <button @click="editBookInfo(book.id)" class="editButton">Modifier</button>
                     </div>
                 </li>
         
@@ -114,12 +114,27 @@ export default {
     align-items: left;
     width: 1000px;
     justify-self: center;
+    margin-left: 300px;
+    margin-top: 50px;
 
 }
-.deleteButton{
+.deleteButton {
+ 
     background-color: red
 }
-.deleteButton:hover{
+.newBook, .editButton{
+    background-color:#504c64
+}
+.deleteButton, .editButton, .newBook{
+    color: white;
+    height: 50px;
+    padding: 8px 16px;
+    border: 2px solid white;
+  border-radius: 20px;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+.deleteButton:hover, .newBook:hover , .editButton:hover {
     background-color: black
 }
 .profile{
@@ -134,5 +149,6 @@ export default {
     justify-content: right;
     align-items: right;
 }
+
 
 </style>

@@ -1,4 +1,62 @@
 <script>
+import axios from 'axios';
+
+export default {
+  data() {
+    return {
+      user: {
+        pseudo: '',
+        
+      },
+      books: []
+    };
+  },
+  async created() {
+    const userId = localStorage.getItem('userId');
+    if (userId) {
+      await this.fetchUserInfo(userId);
+      await this.fetchUserBooks(userId);
+    }
+  },
+  methods: {
+    async fetchUserInfo(userId) {
+      try {
+        const response = await axios.get(`http://localhost:3000/api/users/${userId}`);
+        this.user = response.data.data; 
+      } catch (error) {
+        console.error('Error al recuperar información del usuario:', error);
+      }
+    },
+    async fetchUserBooks(userId) {
+      try {
+        const response = await axios.get('http://localhost:3000/api/books/');
+        const booksR = response.data.data;
+        //this.books = responseBook.data.data.filter(book => book.customer_id === userId); 
+        console.log(booksR[0].customer_id)
+        this.books = booksR.filter(book => book.customer_id == userId)
+        console.log('Libros filtrados:', this.books);
+
+      } catch (error) {
+        console.error('Error al recuperar libros del usuario:', error);
+      }
+    },
+    async deleteBook(bookId) {
+      try {
+        await axios.delete(`http://localhost:3000/api/books/${bookId}`);
+        console.log('Libro eliminado exitosamente');
+        // Vuelve a cargar los libros después de eliminar el libro
+        await this.fetchUserBooks(localStorage.getItem('userId'));
+      } catch (error) {
+        console.error('Error al eliminar el libro:', error);
+      }
+    },
+    editBookInfo(bookId) {
+      // Redirige a la página de edición de información del libro
+      this.$router.push({ name: 'EditBookInfo', params: { id: bookId }});
+    }
+    
+  }
+};
 </script>
 
 <template>
@@ -11,11 +69,15 @@
     <section class="bodyProfil">
         <h1 class="profilBooks">Mes ouvrages : </h1>
         <div class="booksList">
-            <ul>
-                <li>
-                    
+            <ul>        
+                <li v-for="book in books" :key="book.id">
+                    <p>Book Title: {{ book.title }}</p>
+                    <div class="Options">
+                        <button class="deleteButton" @click="deleteBook(book.id)" >Supprimer</button>
+                        <button @click="editBookInfo(book.id)" class="editButton">Modifier</button>
+                    </div>
                 </li>
-            </ul>    
+            </ul>   
         </div>
     </section>
     <button class="newBook"><router-link to="/NewBook">Ajouter un ouvrage</router-link></button>
@@ -45,13 +107,27 @@
     align-items: left;
     width: 1000px;
     justify-self: center;
+    margin-left: 300px;
+    margin-top: 50px;
 
 }
 .deleteButton{
     background-color: red
 }
-.deleteButton:hover{
+.newBook, .editButton, .usersList{
+    background-color:#504c64
+}
+.deleteButton:hover, .newBook:hover , .editButton:hover, .usersList:hover{
     background-color: black
+}
+.deleteButton, .editButton, .newBook, .usersList{
+    color: white;
+    height: 50px;
+    padding: 8px 16px;
+    border: 2px solid white;
+  border-radius: 20px;
+    cursor: pointer;
+    margin-bottom: 20px;
 }
 .profile{
     display: flex;

@@ -109,8 +109,7 @@ import axios  from 'axios';
 
       
 }
-.buttonColor:hover{
-}
+
 .book-details{
     color: black;
     display: flex;
@@ -141,7 +140,7 @@ import axios  from 'axios';
 
 
 
-button{
+.buttonBookDay{
       background-color: #504c64;
     color: white;
     height: 50px;
@@ -154,7 +153,7 @@ button{
     margin-left: 300px; 
     margin-top:100px;
   }
-  button:hover{
+  .buttonBookDay:hover{
       background-color: black;
   }
 </style>

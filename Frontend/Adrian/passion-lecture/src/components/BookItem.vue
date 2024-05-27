@@ -16,6 +16,10 @@ export default{
             publisher: null,
             category: null,
             user: null,
+            year:null,
+            note:null,
+            assessments: [],
+            averageRating: 0,
         };
     },
     mounted() {
@@ -48,8 +52,10 @@ export default{
                 localStorage.setItem('authorName', this.author.name);
                 localStorage.setItem('publisherName', this.publisher.name);
                 localStorage.setItem('categoryName', this.category.name);
+                await this.fetchAssessments(this.book.id);
                 await this.getUserName(this.book.customer_id);
-                console.log(this.user)
+
+                this.calculateRatings();
 
             } catch (error) {
                 console.error('Erreur lors de la récupération des détails du livre :', error);
@@ -100,6 +106,25 @@ export default{
                 console.error(`Erreur lors de la récupération de la catégorie du livre  :`, error);
             }
         },
+        async fetchAssessments(bookId) {
+      try {
+        const response = await axios.get('http://localhost:3000/api/assessments/');
+        this.assessments = response.data.data.filter(assessment => assessment.book_id == bookId);
+        console.log(this.assessments);
+      } catch (error) {
+        console.error('Error al recuperar evaluaciones del libro:', error);
+      }
+    },
+        calculateRatings() {
+            if (this.assessments.length > 0) {
+        const totalRating = this.assessments.reduce((total, assessment) => total + assessment.assessment, 0);
+        this.averageRating = (totalRating / this.assessments.length).toFixed(2);
+      } else {
+        this.averageRating = '0 ';
+      }
+
+            //this.book.average_ratings= this.commentRating / this.numberRating;
+        },
     }
 };
 </script>
@@ -116,12 +141,12 @@ export default{
             <div v-if="showDetails" class="more-details">
                 <ul>
                     <li>Editeur : {{ publisher.name }}</li>
-                    <li>Année d'édition : </li>
+                    <li>Année d'édition : {{ book.year_of_publication }}</li>
                     <li>Nombre de pages : {{ book.number_of_pages }}</li>
                     <li>
                     <a @click="redirectToExtract">{{ book.extract_pdf }}</a>
                     </li>                    
-                    <li>Moyenne appreciation : {{ book.average_ratings }}</li>
+                    <li>Moyenne appreciation : {{ averageRating }}</li>
                     <li>Résumé : {{ book.summary }}</li>
                     <li>Utilisateur: {{ user }}</li>
                 </ul>
