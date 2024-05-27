@@ -4,31 +4,31 @@
     <form @submit.prevent="updateBook()">
       <div>
         <label for="title">Titre:</label>
-        <input type="text" id="title" v-model="title" required>
+        <input type="text" id="title" v-model="title">
       </div>
       <div>
         <label for="category">Catégorie:</label>
-        <input type="text" id="category" v-model="categoryName" required>
+        <input type="text" id="category" v-model="categoryName">
       </div>
       <div>
         <label for="pages">Pages:</label>
-        <input type="number" id="pages" v-model="pages" required>
+        <input type="number" id="pages" v-model="pages">
       </div>
       <div>
         <label for="author">Auteur:</label>
-        <input type="text" id="author" v-model="authorName" required>
+        <input type="text" id="author" v-model="authorName">
       </div>
       <div>
         <label for="publisher">Editeur:</label>
-        <input type="text" id="publisher" v-model="publisherName" required>
+        <input type="text" id="publisher" v-model="publisherName">
       </div>
       <div>
         <label for="year">Année d'édition:</label>
-        <input type="number" id="year" v-model="year" required>
+        <input type="number" id="year" v-model="year">
       </div>
       <div>
         <label for="summary">Résumé:</label>
-        <textarea id="summary" v-model="summary" required></textarea>
+        <textarea id="summary" v-model="summary"></textarea>
       </div>
       <div>
         <label for="pdf">Extrait PDF:</label>
@@ -55,9 +55,10 @@ export default {
       summary: '',
       pdf: null,
       image: null,
-      categoryName: '', 
-      authorName: '', 
-      publisherName: '' 
+      categoryName: '',
+      authorName: '',
+      publisherName: '',
+      initialData: {}
     };
   },
   async mounted() {
@@ -70,13 +71,24 @@ export default {
         this.authorName = localStorage.getItem('authorName');
         this.publisherName = localStorage.getItem('publisherName');
         this.categoryName = localStorage.getItem('categoryName');
-        
+
         const response = await axios.get(`http://localhost:3000/api/books/${bookId}`);
         const book = response.data.data;
         this.title = book.title;
         this.pages = book.number_of_pages;
         this.year = book.year_of_publication;
         this.summary = book.summary;
+
+        // Sauvegarder les valeurs initiales
+        this.initialData = {
+          title: book.title,
+          pages: book.number_of_pages,
+          year: book.year_of_publication,
+          summary: book.summary,
+          categoryName: this.categoryName,
+          authorName: this.authorName,
+          publisherName: this.publisherName,
+        };
       } catch (error) {
         console.error('Erreur lors de la récupération des données du livre:', error);
       }
@@ -88,44 +100,66 @@ export default {
         let publisherId = null;
         let categoryId = null;
 
-        const categoryWasCreated = await this.checkCreatedCategory(this.categoryName);
-        if (categoryWasCreated) {
-          categoryId = categoryWasCreated.id;
-        } else {
-          const categoryInfo = await this.CreateCategory(this.categoryName);
-          categoryId = categoryInfo.id;
+        const updatedFields = {};
+
+        if (this.title !== this.initialData.title) {
+          updatedFields.title = this.title;
+        }
+        if (this.pages !== this.initialData.pages) {
+          updatedFields.number_of_pages = this.pages;
+        }
+        if (this.year !== this.initialData.year) {
+          updatedFields.year_of_publication = this.year;
+        }
+        if (this.summary !== this.initialData.summary) {
+          updatedFields.summary = this.summary;
         }
 
-        const authorWasCreated = await this.checkCreatedAuthor(this.authorName);
-        if (authorWasCreated) {
-          authorId = authorWasCreated.id;
-        } else {
-          const authorInfo = await this.CreateAuthor(this.authorName);
-          authorId = authorInfo.id;
+        if (this.categoryName !== this.initialData.categoryName) {
+          const categoryWasCreated = await this.checkCreatedCategory(this.categoryName);
+          if (categoryWasCreated) {
+            categoryId = categoryWasCreated.id;
+          } else {
+            const categoryInfo = await this.CreateCategory(this.categoryName);
+            categoryId = categoryInfo.id;
+          }
+          updatedFields.category_id = categoryId;
         }
 
-        const publisherWasCreated = await this.checkCreatedPublisher(this.publisherName);
-        if (publisherWasCreated) {
-          publisherId = publisherWasCreated.id;
-        } else {
-          const publisherInfo = await this.CreatePublisher(this.publisherName);
-          publisherId = publisherInfo.id;
+        if (this.authorName !== this.initialData.authorName) {
+          const authorWasCreated = await this.checkCreatedAuthor(this.authorName);
+          if (authorWasCreated) {
+            authorId = authorWasCreated.id;
+          } else {
+            const authorInfo = await this.CreateAuthor(this.authorName);
+            authorId = authorInfo.id;
+          }
+          updatedFields.author_id = authorId;
+        }
+
+        if (this.publisherName !== this.initialData.publisherName) {
+          const publisherWasCreated = await this.checkCreatedPublisher(this.publisherName);
+          if (publisherWasCreated) {
+            publisherId = publisherWasCreated.id;
+          } else {
+            const publisherInfo = await this.CreatePublisher(this.publisherName);
+            publisherId = publisherInfo.id;
+          }
+          updatedFields.publisher_id = publisherId;
+        }
+
+        if (this.image) {
+          updatedFields.cover_image = this.image;
+        }
+
+        if (this.pdf) {
+          updatedFields.extract_pdf = this.pdf;
         }
 
         const userId = localStorage.getItem('userId');
+        updatedFields.customer_id = userId;
 
-        const response = await axios.put(`http://localhost:3000/api/books/${bookId}`, {
-          title: this.title,
-          category_id: categoryId,
-          number_of_pages: this.pages,
-          author_id: authorId,
-          publisher_id: publisherId,
-          year_of_publication: this.year,
-          cover_image: this.image,
-          extract_pdf: this.pdf,
-          summary: this.summary,
-          customer_id: userId
-        });
+        const response = await axios.put(`http://localhost:3000/api/books/${bookId}`, updatedFields);
         console.log(response);
       } catch (error) {
         console.error(`Erreur lors de la mise à jour du livre:`, error);
