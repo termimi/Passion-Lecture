@@ -52,6 +52,7 @@ export default {
         console.log('Libro eliminado exitosamente');
         // Vuelve a cargar los libros después de eliminar el libro
         await this.fetchUserBooks(localStorage.getItem('userId'));
+        alert("Le livre à bien été supprimer!");
       } catch (error) {
         console.error('Error al eliminar el libro:', error);
       }

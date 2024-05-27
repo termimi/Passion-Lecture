@@ -230,6 +230,7 @@ if (this.categoryName !== this.initialData.categoryName) {
           const response = await axios.put(`http://localhost:3000/api/books/${bookId}`, updatedFields);
           
           console.log(response);
+          alert("Le livre à bien été modifier!");
         } catch (error) {
           console.error(`Erreur lors de la mise à jour du livre:`, error);
         }

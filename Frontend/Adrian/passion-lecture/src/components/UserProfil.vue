@@ -83,6 +83,7 @@ export default {
       try {
         await axios.delete(`http://localhost:3000/api/books/${bookId}`);
         await this.fetchUserBooks(localStorage.getItem('userId'));
+        alert("Le livre à bien été créer!");
       } catch (error) {
         console.error('Error ', error);
       }

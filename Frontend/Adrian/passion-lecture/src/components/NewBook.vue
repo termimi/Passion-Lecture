@@ -189,6 +189,7 @@ export default {
                     customer_id: userId
                 });
                 console.log(response);
+                alert("Le livre à bien été créer!");
 
                 // Remet les valeurs par défaults
                 this.title = '';
