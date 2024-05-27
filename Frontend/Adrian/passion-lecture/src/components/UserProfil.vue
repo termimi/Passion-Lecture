@@ -57,7 +57,7 @@ export default {
         const response = await axios.get(`http://localhost:3000/api/users/${userId}`);
         this.user = response.data.data; 
       } catch (error) {
-        console.error('Error al recuperar información del usuario:', error);
+        console.error('Erreur de récuperation des infos de l user:', error);
       }
     },
     async fetchUserBooks(userId) {
@@ -67,25 +67,22 @@ export default {
         //this.books = responseBook.data.data.filter(book => book.customer_id === userId); 
         console.log(booksR[0].customer_id)
         this.books = booksR.filter(book => book.customer_id == userId)
-        console.log('Libros filtrados:', this.books);
 
       } catch (error) {
-        console.error('Error al recuperar libros del usuario:', error);
+        console.error('Error :', error);
       }
     },
     async deleteBook(bookId) {
       try {
         await axios.delete(`http://localhost:3000/api/books/${bookId}`);
-        console.log('Libro eliminado exitosamente');
-        // Vuelve a cargar los libros después de eliminar el libro
         await this.fetchUserBooks(localStorage.getItem('userId'));
       } catch (error) {
-        console.error('Error al eliminar el libro:', error);
+        console.error('Error ', error);
       }
     },
     editBookInfo(bookId) {
-      // Redirige a la página de edición de información del libro
-      this.$router.push({ name: 'EditBookInfo', params: { id: bookId }});
+      console.log(bookId)
+      this.$router.push({ name: 'EditBookInfo', params: { bookId: bookId }});
     }
     
   }
