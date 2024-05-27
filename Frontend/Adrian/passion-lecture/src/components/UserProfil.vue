@@ -24,9 +24,8 @@
             </ul>    
         </div>
     </section>
-    <button class="newBook"><router-link to="/NewBook">Ajouter un ouvrage</router-link>
-        
-    </button>
+    <button @click="logout" class="logoutButton">Déconnexion</button>
+    <button class="newBook"><router-link to="/NewBook">Ajouter un ouvrage</router-link></button>
     </section>
     
 </template>
@@ -45,12 +44,20 @@ export default {
     };
   },
   async created() {
+    
     const userId = localStorage.getItem('userId');
-    if (userId) {
+    if (!userId) {
+      alert("Vous n'êtes pas autorisé à accéder à cette page !");
+            this.$router.push({ name: 'home' });
+    }
+
+    else
+    {
       await this.fetchUserInfo(userId);
       await this.fetchUserBooks(userId);
     }
   },
+  
   methods: {
     async fetchUserInfo(userId) {
       try {
@@ -81,8 +88,12 @@ export default {
       }
     },
     editBookInfo(bookId) {
-      console.log(bookId)
       this.$router.push({ name: 'EditBookInfo', params: { bookId: bookId }});
+    },
+
+    logout() {
+      localStorage.removeItem('userId');
+      this.$router.push({ name: 'Login' });
     }
     
   }
@@ -91,20 +102,19 @@ export default {
 
 
 <style scoped>
-.title{
+.title {
     height: 200px;
     background-color: #504c64;
-    color: #fff ;
-    text-align: center; 
+    color: #fff;
+    text-align: center;
     display: flex;
     justify-content: center;
     align-items: center;
-    border-bottom: 1px solid white; 
+    border-bottom: 1px solid white;
     width: 100%;
-
 }
 
-.bodyProfil{
+.bodyProfil {
     color: white;
     display: flex;
     flex-direction: column;
@@ -113,39 +123,41 @@ export default {
     justify-self: center;
     margin-left: 300px;
     margin-top: 50px;
+}
 
-}
 .deleteButton {
- 
-    background-color: red
+    background-color: red;
 }
-.newBook, .editButton{
-    background-color:#504c64
+
+.newBook, .editButton, .logoutButton {
+    background-color: #504c64;
 }
-.deleteButton, .editButton, .newBook{
+
+.deleteButton, .editButton, .newBook, .logoutButton {
     color: white;
     height: 50px;
     padding: 8px 16px;
     border: 2px solid white;
-  border-radius: 20px;
+    border-radius: 20px;
     cursor: pointer;
     margin-bottom: 20px;
 }
-.deleteButton:hover, .newBook:hover , .editButton:hover {
-    background-color: black
+
+.deleteButton:hover, .newBook:hover, .editButton:hover, .logoutButton:hover {
+    background-color: black;
 }
-.profile{
+
+.profile {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
-.newBook{
+
+.newBook {
     position: relative;
     display: flex;
     justify-content: right;
     align-items: right;
 }
-
-
 </style>
