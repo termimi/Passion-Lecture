@@ -79,7 +79,7 @@ export default {
         this.year = book.year_of_publication;
         this.summary = book.summary;
 
-        // Sauvegarder les valeurs initiales
+
         this.initialData = {
           title: book.title,
           pages: book.number_of_pages,
