@@ -40,41 +40,51 @@ export default {
     async loadComments() {
       try {
         const response = await axios.get('http://localhost:3000/api/comments/');
-        this.comments = response.data.data; // Asigna los comentarios a la propiedad `comments`
-        await this.loadUsers(); // Carga la información de los usuarios después de cargar los comentarios
+        const allComments = response.data.data; // Asigna los comentarios a la propiedad `comments`
+        const bookId = localStorage.getItem("bookId")
+        const filteredComments = [];
+        for (let i = 0; i < allComments.length; i++) {
+          const comment = allComments[i];
+
+          if (comment.book_id == bookId) {
+
+            filteredComments.push(comment);
+
+          }
+        }        
+        this.comments = filteredComments;
+
+        await this.loadUsers(); 
       } catch (error) {
         console.error('Error al cargar los comentarios:', error);
       }
     },
     async loadUsers() {
       try {
-        const userIds = [...new Set(this.comments.map(comment => comment.customer_id))]; // Extrae los IDs únicos de los usuarios
-        const userRequests = userIds.map(id => axios.get(`http://localhost:3000/api/users/${id}`));
-        const userResponses = await Promise.all(userRequests); // Realiza solicitudes paralelas para todos los usuarios
+    if (this.comments.length === 0) {
+      // No hay comentarios disponibles, no es necesario cargar usuarios
+      return;
+    }
 
-        userResponses.forEach(response => {
-          this.users[response.data.data.id] = response.data.data; // Asigna cada usuario al objeto `users` por su ID
-        });
-      } catch (error) {
-        console.error('Error al cargar la información de los usuarios:', error);
+    const userIds = [...new Set(this.comments.map(comment => comment.customer_id))];
+    const userRequests = userIds.map(id => axios.get(`http://localhost:3000/api/users/${id}`));
+    console.log(userRequests)
+    const userResponses = await Promise.all(userRequests);
+
+    // Verificar si las respuestas son válidas antes de asignar usuarios
+    userResponses.forEach(response => {
+      if (response.data && response.data.data) {
+        this.users[response.data.data.id] = response.data.data;
+      } else {
+        console.error('Respuesta de usuario no válida:', response);
       }
+    });
+  } catch (error) {
+    console.error('Error al cargar la información de los usuarios:', error);
+  }
     }
     ,
-    async getComments(){
-      try{
-        const userId = localStorage.getItem('userId')
-        const bookId = localStorage.getItem('bookId')
-        const commentText = await axios.get(`http://localhost:3000/api/comments/${bookId}`)
-      
-                //Acabar en casa
-                //for(cont contentText of commentText.data.data){
-                  //const comment = awau  
-                //}
-
-            } catch (error) {
-                console.error('Erreur lors de la publication du commentaire :', error);
-            }
-    },
+    
     async postComment() {
             try {
                 const userId = localStorage.getItem('userId')

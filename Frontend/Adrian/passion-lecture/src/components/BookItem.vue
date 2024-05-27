@@ -1,6 +1,7 @@
 
 <script setup>
 import BookItemReviews from '@/components/BookItemReviews.vue';
+import Header from '@/components/Header.vue';
 </script>
 
 <script>
@@ -130,6 +131,7 @@ export default{
 </script>
 
 <template>
+    
     <section class="bookItem" v-if="book">
         <!--<div class="bookItemImg" :style="{backgroundImage:'url(./src/assets/book1.png)'}"></div> -->
         <img v-if="book.cover_image" :src="book.cover_image" alt="Image de couverture" class="bookItemImg">

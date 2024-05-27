@@ -13,7 +13,13 @@ export default {
   },
   async created() {
     const userId = localStorage.getItem('userId');
-    if (userId) {
+    if (!userId) {
+      alert("Vous n'êtes pas autorisé à accéder à cette page !");
+            this.$router.push({ name: 'home' });
+    }
+
+    else
+    {
       await this.fetchUserInfo(userId);
       await this.fetchUserBooks(userId);
     }
@@ -53,6 +59,10 @@ export default {
     editBookInfo(bookId) {
       // Redirige a la página de edición de información del libro
       this.$router.push({ name: 'EditBookInfo', params: { id: bookId }});
+    },
+    logout() {
+      localStorage.removeItem('userId');
+      this.$router.push({ name: 'Login' });
     }
     
   }
@@ -80,6 +90,7 @@ export default {
             </ul>   
         </div>
     </section>
+    <button @click="logout" class="logoutButton"><router-link to="/">Déconnexion</router-link></button>
     <button class="newBook"><router-link to="/NewBook">Ajouter un ouvrage</router-link></button>
     <button class="usersList"><router-link to="/UsersList">Liste d'utilisateurs</router-link></button>
     </section>
@@ -114,13 +125,13 @@ export default {
 .deleteButton{
     background-color: red
 }
-.newBook, .editButton, .usersList{
+.newBook, .editButton, .usersList, .logoutButton{
     background-color:#504c64
 }
-.deleteButton:hover, .newBook:hover , .editButton:hover, .usersList:hover{
+.deleteButton:hover, .newBook:hover , .editButton:hover, .usersList:hover, .logoutButton:hover{
     background-color: black
 }
-.deleteButton, .editButton, .newBook, .usersList{
+.deleteButton, .editButton, .newBook, .usersList, .logoutButton{
     color: white;
     height: 50px;
     padding: 8px 16px;

@@ -52,6 +52,7 @@ export default {
                 localStorage.setItem('token', response.data.token);
 
                 if(!adminRes){
+                    
                     router.push({ name: 'Profile' }); 
                 }
                 else{

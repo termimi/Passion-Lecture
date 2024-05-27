@@ -22,12 +22,12 @@ export default {
   data() {
     return {
       profileRoute: '/login',
-      profileLinkText: 'Connexion'
+      profileLinkText: 'Connexion',
     };
   },
   async created() {
-    const userId = localStorage.getItem('userId');
-    if (userId) {
+    if (localStorage.getItem('userId') != null) {
+      const userId = localStorage.getItem('userId');
       try {
         const response = await axios.get(`http://localhost:3000/api/users/${userId}`);
         const user = response.data.data;
@@ -39,12 +39,26 @@ export default {
         }
         
         this.profileLinkText = 'Mon Profil';
+        
       } catch (error) {
         console.error('Error al recuperar la información del usuario:', error);
+        
       }
     }
-  }
-};
+    else{
+      this.profileRoute = '/login';
+
+      this.profileLinkText = 'Connexion';
+
+    }
+    
+  },
+
+  
+  
+  
+}
+;
 </script>
 
 <style scoped>

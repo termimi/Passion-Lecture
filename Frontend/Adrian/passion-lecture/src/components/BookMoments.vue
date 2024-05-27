@@ -1,6 +1,6 @@
 <template>
     <div class="booksMoment">
-        <h2>Livres du moments :</h2>
+        <h2>Livres du moments </h2>
         <ul class="book-list">
             <li v-for="book in latestBooks" :key="book.id" class="book-item">
                 <div>
@@ -28,6 +28,9 @@
     display: flex;
     justify-content: center;
     margin-bottom: 50px;
+    flex-direction: column;
+    align-items: center;
+    
 }
 .book-list {
     list-style: none;

@@ -4,6 +4,7 @@ import Formulaire from '../components/Formulaire.vue';
 
 <template>
   <main>
+    
     <Formulaire />
   </main>
 </template>
