@@ -184,6 +184,7 @@
             customer_id: userId
           });
           console.log(response);
+          alert("Le livre à bien été modifier!");
         } catch (error) {
           console.error(`Erreur lors de la mise à jour du livre:`, error);
         }
