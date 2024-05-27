@@ -44,12 +44,20 @@ export default {
     };
   },
   async created() {
+    
     const userId = localStorage.getItem('userId');
-    if (userId) {
+    if (!userId) {
+      alert("Vous n'êtes pas autorisé à accéder à cette page !");
+            this.$router.push({ name: 'home' });
+    }
+
+    else
+    {
       await this.fetchUserInfo(userId);
       await this.fetchUserBooks(userId);
     }
   },
+  
   methods: {
     async fetchUserInfo(userId) {
       try {
