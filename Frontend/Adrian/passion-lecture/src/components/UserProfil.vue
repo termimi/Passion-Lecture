@@ -24,7 +24,7 @@
             </ul>    
         </div>
     </section>
-    <button @click="logout" class="logoutButton">Déconnexion</button>
+    <button class="logoutButton" @click="logout" >Déconnexion</button> 
     <button class="newBook"><router-link to="/NewBook">Ajouter un ouvrage</router-link></button>
     </section>
     
@@ -44,7 +44,7 @@ export default {
     };
   },
   async created() {
-    
+
     const userId = localStorage.getItem('userId');
     if (!userId) {
       alert("Vous n'êtes pas autorisé à accéder à cette page !");
@@ -94,7 +94,9 @@ export default {
 
     logout() {
       localStorage.removeItem('userId');
-      this.$router.push({ name: 'Login' });
+      this.$router.push({ name: 'login' }).then(() => {
+      window.location.reload();
+    });
     }
     
   }

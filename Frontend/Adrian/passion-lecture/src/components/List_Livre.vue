@@ -24,7 +24,9 @@
                         <p>Utilisateur : {{ book.customer.pseudo }}</p>
                     </div>
                     <!-- Voir détails -->
-                    <router-link :to="{ name: 'bookItem', params: { id: book.id } }">Voir les détails</router-link>
+                    <button class="buttonBook" @click="navigateAndReload(book.id)" >
+                    Voir les détails
+                </button> 
                 </li>
             </ul>
             <hr>
@@ -75,7 +77,7 @@ h1{
 }
 
 img {
-    max-width: 200px;
+    max-height: 250px;
 }
 h2{
     color:white;
@@ -86,6 +88,19 @@ h2{
     margin-bottom: 20px;
     margin-right: 25px;
     color: white;
+}
+.buttonBook{
+    background-color: #504c64;
+    color: white;
+    height: 30px;
+    padding: 8px 16px;
+    border: 2px solid white;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-top: 10px
+}
+.buttonBook:hover{
+    background-color: black;
 }
 </style>
 
@@ -177,6 +192,10 @@ export default {
                 }
             }
             return books;
+        },
+        navigateAndReload(bookId) {
+            this.$router.push({ name: 'bookItem', params: { id: bookId } }).then(() => {
+            window.location.reload();})
         },
 
     }

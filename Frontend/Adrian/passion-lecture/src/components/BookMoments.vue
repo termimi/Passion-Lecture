@@ -4,7 +4,7 @@
         <ul class="book-list">
             <li v-for="book in latestBooks" :key="book.id" class="book-item">
                 <div>
-                    <img v-if="book.cover_image" :src="book.cover_image" alt="Image de couverture">
+                    <img v-if="book.cover_image" :src="book.cover_image" alt="Image de couverture" class="imgCover">
                 </div>
                 <div>
                     <p>Titre : {{ book.title }}</p>
@@ -16,7 +16,9 @@
                     <p>Utilisateur : {{ book.customer.pseudo }}</p>
                 </div>
                 <!-- Voir détails -->
-                <router-link :to="{ name: 'bookItem', params: { id: book.id } }">Voir les détails</router-link>
+                <button class="buttonBook" @click="navigateAndReload(book.id)" >
+                    Voir les détails
+                </button> 
             </li>
         </ul>
     </div>
@@ -42,6 +44,7 @@
 
 img {
     max-width: 200px;
+    max-height: 275px;
 }
 h2{
     color:white;
@@ -53,6 +56,19 @@ h2{
     margin-bottom: 20px;
     margin-right: 25px;
     color: white;
+}
+.buttonBook{
+    background-color: #504c64;
+    color: white;
+    height: 40px;
+    padding: 8px 16px;
+    border: 2px solid white;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-top: 10px
+}
+.buttonBook:hover{
+    background-color: black;
 }
 </style>
 
@@ -118,6 +134,10 @@ export default {
                 }
             }
             return books;
+        },
+        navigateAndReload(bookId) {
+            this.$router.push({ name: 'bookItem', params: { id: bookId } }).then(() => {
+            window.location.reload();})
         },
 
     }

@@ -34,13 +34,14 @@ export default {
   async created() {
     const bookId = localStorage.getItem('bookId');
     await this.loadComments(bookId);
+    
   },
+  
   methods: {
     async loadComments(bookId) {
       try {
         const response = await axios.get('http://localhost:3000/api/comments/');
-        const allComments = response.data.data; // Asigna los comentarios a la propiedad `comments`
-        const bookId = localStorage.getItem("bookId")
+        const allComments = response.data.data; 
         const filteredComments = [];
         for (let i = 0; i < allComments.length; i++) {
           const comment = allComments[i];
@@ -48,40 +49,51 @@ export default {
           if (comment.book_id == bookId) {
 
             filteredComments.push(comment);
+            //console.log(comment)
 
           }
         }        
         this.comments = filteredComments;
-
+        //console.log(this.comments[0])
         await this.loadUsers(); 
       } catch (error) {
         console.error('Erreur lors du chargement des commentaires:', error);
       }
     },
     async loadUsers() {
-      try {
+  try {
     if (this.comments.length === 0) {
       // No hay comentarios disponibles, no es necesario cargar usuarios
       return;
     }
 
-    const userIds = [...new Set(this.comments.map(comment => comment.customer_id))];
-    const userRequests = userIds.map(id => axios.get(`http://localhost:3000/api/users/${id}`));
-    console.log(userRequests)
-    const userResponses = await Promise.all(userRequests);
+    const userIdsSet = new Set();
+    for (const comment of this.comments) {
+      userIdsSet.add(comment.customer_id);
+    }
 
+    const userRequests = [];
+    for (const idU of userIdsSet) {
+      //console.log(idU)
+      userRequests.push(axios.get(`http://localhost:3000/api/users/${idU}`));
+    }
+
+    const userResponses = await Promise.all(userRequests);
     // Verificar si las respuestas son válidas antes de asignar usuarios
-    userResponses.forEach(response => {
-      if (response.data && response.data.data) {
-        this.users[response.data.data.id] = response.data.data;
+    for (const response of userResponses) 
+    {
+      //console.log(response.data.data)
+      if (response.data.data) {
+        this.users[response.data.data.id] = response.data.data.pseudo;
+        console.log(this.users[response.data.data.id])
       } else {
         console.error('Respuesta de usuario no válida:', response);
       }
-    });
+    }
   } catch (error) {
     console.error('Error al cargar la información de los usuarios:', error);
   }
-    }
+}
     ,
     
     async postComment() {
@@ -98,6 +110,8 @@ export default {
 
         await this.postRating();
         await this.putAverageRating();
+        window.location.reload();
+
 
       } catch (error) {
         console.error('Erreur lors de la publication du commentaire :', error);
@@ -173,10 +187,10 @@ export default {
   <div class="reviews">
   <h3 class="commentsTitle">Commentaires</h3>
   <div class="review-grid">
-    <div class="review-container" v-for="comment in comments" :key="comment.id">
+    <div class="review-container" v-for="comment in commentsWithUser" :key="comment.id">
       <div class="review">
         <div class="reviewUserData">
-          <p class="reviewUser">{{ comment.user.pseudo }} :</p>
+          <p class="reviewUser">{{ comment.user }} :</p>
         </div>
         <p class="reviewText">{{ comment.content }}</p>
       </div>

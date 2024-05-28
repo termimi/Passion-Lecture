@@ -14,6 +14,8 @@ import axios  from 'axios';
             category: null
         };
     },
+    created(){
+    },
     mounted() {
         this.getBookDetails();
     },
@@ -66,9 +68,13 @@ import axios  from 'axios';
             } catch (error) {
                 console.error(`Erreur lors de la récupération de la catégorie du livre ${book.title} :`, error);
             }
-        }
+        },
+        navigateAndReload(bookId) {
+            this.$router.push({ name: 'bookItem', params: { id: bookId } }).then(() => {
+            window.location.reload();})
+        },
     }
-};
+}
 </script>
 
 
@@ -86,8 +92,8 @@ import axios  from 'axios';
                     <p style="color: white;">{{ author.name }}</p>
                 </div>
                 <p style="color: white;" >{{book.summary}}</p>
-                <button class="buttonBookDay">
-                    <router-link  class="buttonColor" :to="{ name: 'bookItem', params: { id: book.id } }">Voir les détails</router-link>
+                <button class="buttonBookDay" @click="navigateAndReload(book.id)" >
+                    Voir les détails
                 </button> 
             </div>            
         </div>

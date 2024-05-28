@@ -57,11 +57,18 @@ export default {
                 localStorage.setItem('token', response.data.token);
 
                 if(!adminRes){
+                    //window.location.reload();
+                    router.push({ name: 'Profile' }).then(() => {
+      window.location.reload();
+    }); 
                     
-                    router.push({ name: 'Profile' }); 
                 }
                 else{
-                    router.push({ name: 'ProfileAdmin' }); 
+                    //window.location.reload();
+
+                    router.push({ name: 'ProfileAdmin' }).then(() => {
+      window.location.reload();
+    }); 
                 }
 
                 // Erreur de l'api
