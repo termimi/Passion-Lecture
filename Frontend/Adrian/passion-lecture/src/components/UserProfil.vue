@@ -25,7 +25,7 @@
         </div>
     </section>
     <button class="logoutButton" @click="logout" >Déconnexion</button> 
-    <button class="newBook"><router-link to="/NewBook">Ajouter un ouvrage</router-link></button>
+    <router-link to="/NewBook" class="newBook">Ajouter un ouvrage</router-link>
     </section>
     
 </template>
@@ -83,7 +83,7 @@ export default {
       try {
         await axios.delete(`http://localhost:3000/api/books/${bookId}`);
         await this.fetchUserBooks(localStorage.getItem('userId'));
-        alert("Le livre à bien été créer!");
+        alert("Le livre à bien été supprimer!");
       } catch (error) {
         console.error('Error ', error);
       }

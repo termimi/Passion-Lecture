@@ -60,7 +60,7 @@ export default {
     },
     editBookInfo(bookId) {
       // Redirige a la página de edición de información del libro
-      this.$router.push({ name: 'EditBookInfo', params: { id: bookId }});
+      this.$router.push({ name: 'EditBookInfo', params: { bookId: bookId }});
     },
     logout() {
       localStorage.removeItem('userId');
@@ -95,8 +95,8 @@ export default {
         </div>
     </section>
     <button class="logoutButton" @click="logout" >Déconnexion</button> 
-    <button class="newBook"><router-link to="/NewBook">Ajouter un ouvrage</router-link></button>
-    <button class="usersList"><router-link to="/UsersList">Liste d'utilisateurs</router-link></button>
+    <router-link class="newBook" to="/NewBook">Ajouter un ouvrage</router-link>
+    <router-link  class="usersList" to="/UsersList">Liste d'utilisateurs</router-link>
     </section>
     
 </template>
