@@ -20,8 +20,8 @@ import { assessments } from "./mock-assessment.mjs";
 // Informations pour la connexion à la db
 const sequelize = new Sequelize("db_lovbooks", "admin347", "$Azureuser2024", {
   host: "frdpassionlecture.mysql.database.azure.com",
-  dialect: "3306",
-  port: 6033,
+  dialect: "mysql",
+  port: 3306,
   logging: false,
 });
 
