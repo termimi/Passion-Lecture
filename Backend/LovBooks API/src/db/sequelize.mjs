@@ -18,7 +18,7 @@ import { categorys } from "./mock-category.mjs";
 import { assessments } from "./mock-assessment.mjs";
 
 // Informations pour la connexion à la db
-const sequelize = new Sequelize("db_lovbooks", "root", "root", {
+const sequelize = new Sequelize("db_lovbooks", "admin347", "$Azureuser2024", {
   host: "localhost",
   dialect: "mysql",
   port: 6033,
