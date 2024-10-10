@@ -40,7 +40,7 @@ export default {
   methods: {
     async loadComments(bookId) {
       try {
-        const response = await axios.get('http://localhost:3000/api/comments/');
+        const response = await axios.get('https://api-love-books.azurewebsites.net/api/comments/');
         const allComments = response.data.data; 
         const filteredComments = [];
         for (let i = 0; i < allComments.length; i++) {
@@ -75,7 +75,7 @@ export default {
     const userRequests = [];
     for (const idU of userIdsSet) {
       //console.log(idU)
-      userRequests.push(axios.get(`http://localhost:3000/api/users/${idU}`));
+      userRequests.push(axios.get(`https://api-love-books.azurewebsites.net/api/users/${idU}`));
     }
 
     const userResponses = await Promise.all(userRequests);
@@ -100,7 +100,7 @@ export default {
       try {
         const userId = localStorage.getItem('userId')
         const bookId = localStorage.getItem('bookId')
-        const response = await axios.post('http://localhost:3000/api/comments/', {
+        const response = await axios.post('https://api-love-books.azurewebsites.net/api/comments/', {
           content: this.commentContent,
           customer_id: userId,
           book_id: bookId,
@@ -122,7 +122,7 @@ export default {
       try {
         const userId = localStorage.getItem('userId')
         const bookId = localStorage.getItem('bookId')
-        const response = await axios.post('http://localhost:3000/api/assessments/', {
+        const response = await axios.post('https://api-love-books.azurewebsites.net/api/assessments/', {
           assessment: this.commentRating,
           customer_id: userId,
           book_id: bookId,
@@ -138,13 +138,13 @@ export default {
       try {
         const bookId = localStorage.getItem('bookId')
         // Récupérer les données actuelles du livre
-        const response = await axios.get(`http://localhost:3000/api/books/${bookId}`);
+        const response = await axios.get(`https://api-love-books.azurewebsites.net/api/books/${bookId}`);
         const bookData = response.data;
 
         //Met a jour
         bookData.average_ratings = this.calculateRatings();
 
-        const updateResponse = await axios.put(`http://localhost:3000/api/books/${bookId}`, bookData);
+        const updateResponse = await axios.put(`https://api-love-books.azurewebsites.net/api/books/${bookId}`, bookData);
 
         console.log(updateResponse.data);
       } catch (error) {

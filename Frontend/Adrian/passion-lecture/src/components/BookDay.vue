@@ -27,7 +27,7 @@ import axios  from 'axios';
                 async getBookDetails() {
             const bookId = 2;
             try {
-                const response = await axios.get(`http://localhost:3000/api/books/${bookId}`);
+                const response = await axios.get(`https://api-love-books.azurewebsites.net/api/books/${bookId}`);
                 this.book = response.data.data;
 
                 await this.getAuthorsNames(this.book.author_id);
@@ -42,7 +42,7 @@ import axios  from 'axios';
         async getAuthorsNames(authorId) {
             try {
                 // Requête GET pour récupérer les informations de l'auteur
-                const response = await axios.get(`http://localhost:3000/api/authors/${authorId}`);
+                const response = await axios.get(`https://api-love-books.azurewebsites.net/api/authors/${authorId}`);
                 this.author = response.data.data;
             } catch (error) {
                 console.error(`Erreur lors de la récupération de l'auteur :`, error);
@@ -53,7 +53,7 @@ import axios  from 'axios';
 
             try {
                 // Requete GET pour récupérer les informations de l'éditeur
-                const response = await axios.get(`http://localhost:3000/api/publishers/${publisherId}`);
+                const response = await axios.get(`https://api-love-books.azurewebsites.net/api/publishers/${publisherId}`);
                 this.publisher = response.data.data;
             } catch (error) {
                 console.error(`Erreur lors de la récupération de l'éditeur du livre ${book.title} :`, error);
@@ -63,7 +63,7 @@ import axios  from 'axios';
         async getCategoryNames(categoryId) {
             try {
                 // Requete GET pour récupérer les informations de la category
-                const response = await axios.get(`http://localhost:3000/api/categorys/${categoryId}`);
+                const response = await axios.get(`https://api-love-books.azurewebsites.net/api/categorys/${categoryId}`);
                 this.category = response.data.data;
             } catch (error) {
                 console.error(`Erreur lors de la récupération de la catégorie du livre ${book.title} :`, error);

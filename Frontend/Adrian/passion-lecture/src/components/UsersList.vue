@@ -30,10 +30,10 @@ export default {
   methods: {
     async fetchUsers() {
       try {
-        const response = await axios.get('http://localhost:3000/api/users/');
+        const response = await axios.get('https://api-love-books.azurewebsites.net/api/users/');
         this.users = response.data.data; 
         
-        const booksResponse = await axios.get('http://localhost:3000/api/books/');
+        const booksResponse = await axios.get('https://api-love-books.azurewebsites.net/api/books/');
         this.books = booksResponse.data.data; 
 
         this.countBooksByUser();

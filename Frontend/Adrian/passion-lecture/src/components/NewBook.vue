@@ -173,7 +173,7 @@ export default {
                 const userId = localStorage.getItem('userId')
 
                 //Requete post afin de créer un nouveau livre
-                const response = await axios.post('http://localhost:3000/api/books/', {
+                const response = await axios.post('https://api-love-books.azurewebsites.net/api/books/', {
                     title: this.title,
                     category_id: categoryId,
                     number_of_pages: this.pages,
@@ -210,7 +210,7 @@ export default {
         //Vérifie si la catégorie est déja créer
         async checkCreatedCategory(name) {
             try {
-                const response = await axios.get(`http://localhost:3000/api/categorys?name=${name}`);
+                const response = await axios.get(`https://api-love-books.azurewebsites.net/api/categorys?name=${name}`);
                 //Si la categorie est trouvé on renvoie son id
                 return response.data.data.length > 0 ? response.data.data[0] : null;
 
@@ -222,7 +222,7 @@ export default {
         //Vérifie si l'auteur est déja créer
         async checkCreatedAuthor(name) {
             try {
-                const response = await axios.get(`http://localhost:3000/api/authors?name=${name}`);
+                const response = await axios.get(`https://api-love-books.azurewebsites.net/api/authors?name=${name}`);
                 //Si l'auteur est trouvé on renvoie son id
                 return response.data.data.length > 0 ? response.data.data[0] : null;
 
@@ -234,7 +234,7 @@ export default {
         //Vérifie si l'éditeur est déja créer
         async checkCreatedPublisher(name) {
             try {
-                const response = await axios.get(`http://localhost:3000/api/publishers?name=${name}`);
+                const response = await axios.get(`https://api-love-books.azurewebsites.net/api/publishers?name=${name}`);
                 //Si l'éditeur est trouvé on renvoie son id
                 return response.data.data.length > 0 ? response.data.data[0] : null;
             } catch (error) {
@@ -245,7 +245,7 @@ export default {
         //Créer la catégorie
         async CreateCategory(name) {
             try {
-                const response = await axios.post('http://localhost:3000/api/categorys/', {
+                const response = await axios.post('https://api-love-books.azurewebsites.net/api/categorys/', {
                     name: name,
                 });
                 console.log(response);
@@ -258,7 +258,7 @@ export default {
         //Créer l'auteur
         async CreateAuthor(name) {
             try {
-                const response = await axios.post('http://localhost:3000/api/authors/', {
+                const response = await axios.post('https://api-love-books.azurewebsites.net/api/authors/', {
                     name: name,
                     first_name: "Author"
                 });
@@ -272,7 +272,7 @@ export default {
         //Créer l'éditeur
         async CreatePublisher(name) {
             try {
-                const response = await axios.post('http://localhost:3000/api/publishers/', {
+                const response = await axios.post('https://api-love-books.azurewebsites.net/api/publishers/', {
                     name: name
                 });
 

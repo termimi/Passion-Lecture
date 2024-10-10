@@ -129,12 +129,12 @@
           //this.publisherName = localStorage.getItem('publisherName');
           //this.categoryName = localStorage.getItem('categoryName');
           
-          const response = await axios.get(`http://localhost:3000/api/books/${bookId}`);
+          const response = await axios.get(`https://api-love-books.azurewebsites.net/api/books/${bookId}`);
           const book = response.data.data;
 
-          const authorId = await axios.get(`http://localhost:3000/api/authors/${book.author_id}`);
-          const publisherId = await axios.get(`http://localhost:3000/api/publishers/${book.publisher_id}`);
-          const categoryId = await axios.get(`http://localhost:3000/api/categorys/${book.category_id}`);
+          const authorId = await axios.get(`https://api-love-books.azurewebsites.net/api/authors/${book.author_id}`);
+          const publisherId = await axios.get(`https://api-love-books.azurewebsites.net/api/publishers/${book.publisher_id}`);
+          const categoryId = await axios.get(`https://api-love-books.azurewebsites.net/api/categorys/${book.category_id}`);
           this.title = book.title;
           this.pages = book.number_of_pages;
           this.year = book.year_of_publication;
@@ -227,7 +227,7 @@ if (this.categoryName !== this.initialData.categoryName) {
           const userId = updatedFields.customer_id;
           updatedFields.customer_id = userId;
 
-          const response = await axios.put(`http://localhost:3000/api/books/${bookId}`, updatedFields);
+          const response = await axios.put(`https://api-love-books.azurewebsites.net/api/books/${bookId}`, updatedFields);
           
           console.log(response);
           alert("Le livre à bien été modifier!");
@@ -237,7 +237,7 @@ if (this.categoryName !== this.initialData.categoryName) {
       },
       async checkCreatedCategory(name) {
         try {
-          const response = await axios.get(`http://localhost:3000/api/categorys?name=${name}`);
+          const response = await axios.get(`https://api-love-books.azurewebsites.net/api/categorys?name=${name}`);
           return response.data.data.length > 0 ? response.data.data[0] : null;
         } catch (error) {
           console.error(`Erreur lors de la vérification de l'existence de la catégorie:`, error);
@@ -246,7 +246,7 @@ if (this.categoryName !== this.initialData.categoryName) {
       },
       async checkCreatedAuthor(name) {
         try {
-          const response = await axios.get(`http://localhost:3000/api/authors?name=${name}`);
+          const response = await axios.get(`https://api-love-books.azurewebsites.net/api/authors?name=${name}`);
           return response.data.data.length > 0 ? response.data.data[0] : null;
         } catch (error) {
           console.error(`Erreur lors de la vérification de l'existence de l'auteur:`, error);
@@ -255,7 +255,7 @@ if (this.categoryName !== this.initialData.categoryName) {
       },
       async checkCreatedPublisher(name) {
         try {
-          const response = await axios.get(`http://localhost:3000/api/publishers?name=${name}`);
+          const response = await axios.get(`https://api-love-books.azurewebsites.net/api/publishers?name=${name}`);
           return response.data.data.length > 0 ? response.data.data[0] : null;
         } catch (error) {
           console.error(`Erreur lors de la vérification de l'existence de l'éditeur:`, error);
@@ -264,7 +264,7 @@ if (this.categoryName !== this.initialData.categoryName) {
       },
       async CreateCategory(name) {
         try {
-          const response = await axios.post('http://localhost:3000/api/categorys/', {
+          const response = await axios.post('https://api-love-books.azurewebsites.net/api/categorys/', {
             name: name,
           });
           return response.data.data;
@@ -274,7 +274,7 @@ if (this.categoryName !== this.initialData.categoryName) {
       },
       async CreateAuthor(name) {
         try {
-          const response = await axios.post('http://localhost:3000/api/authors/', {
+          const response = await axios.post('https://api-love-books.azurewebsites.net/api/authors/', {
             name: name,
             first_name: "Author"
           });
@@ -285,7 +285,7 @@ if (this.categoryName !== this.initialData.categoryName) {
       },
       async CreatePublisher(name) {
         try {
-          const response = await axios.post('http://localhost:3000/api/publishers/', {
+          const response = await axios.post('https://api-love-books.azurewebsites.net/api/publishers/', {
             name: name
           });
           return response.data.data;

@@ -127,7 +127,7 @@ export default {
         async getBooksByCategory() {
             try {
                 //Get pour prendre toutes les catégories
-                const categoriesResponse = await axios.get('http://localhost:3000/api/categorys');
+                const categoriesResponse = await axios.get('https://api-love-books.azurewebsites.net/api/categorys');
 
                 //Prend chaque livre individuellement pour chaque catégorie
                 for (const category of categoriesResponse.data.data) {
@@ -144,7 +144,7 @@ export default {
         async getBooksForCategory(categoryId) {
             try {
                 //Get pour prendre les infos des livres de chaque catégorie
-                const response = await axios.get(`http://localhost:3000/api/categorys/${categoryId}/books`);
+                const response = await axios.get(`https://api-love-books.azurewebsites.net/api/categorys/${categoryId}/books`);
 
                 //Retourne les info des livres (titre, auteur, etc)
                 const books = response.data.data;
@@ -168,7 +168,7 @@ export default {
                 try {
 
                     //GET pour récupérer les informations de l'auteur
-                    const response = await axios.get(`http://localhost:3000/api/authors/${book.author_id}`);
+                    const response = await axios.get(`https://api-love-books.azurewebsites.net/api/authors/${book.author_id}`);
                     book.author = response.data.data;
 
                 }
@@ -184,7 +184,7 @@ export default {
                 try {
 
                     //GET pour récupérer les informations de l'utilisateur
-                    const response = await axios.get(`http://localhost:3000/api/users/${book.customer_id}`);
+                    const response = await axios.get(`https://api-love-books.azurewebsites.net/api/users/${book.customer_id}`);
                     book.customer = response.data.data;
                 }
                 catch (error) {

@@ -91,7 +91,7 @@ export default {
         //Prend les 6 dernier livres
         async getBooksLatest() {
             try {
-                const response = await axios.get('http://localhost:3000/api/books/latest/latest');
+                const response = await axios.get('https://api-love-books.azurewebsites.net/api/books/latest/latest');
                 const books = response.data.data;
 
                 // Récupère les auteurs et utilisateurs pour les livres
@@ -110,7 +110,7 @@ export default {
                 try {
 
                     //GET pour récupérer les informations de l'auteur
-                    const response = await axios.get(`http://localhost:3000/api/authors/${book.author_id}`);
+                    const response = await axios.get(`https://api-love-books.azurewebsites.net/api/authors/${book.author_id}`);
                     book.author = response.data.data;
 
                 }
@@ -126,7 +126,7 @@ export default {
                 try {
 
                     //GET pour récupérer les informations de l'utilisateur
-                    const response = await axios.get(`http://localhost:3000/api/users/${book.customer_id}`);
+                    const response = await axios.get(`https://api-love-books.azurewebsites.net/api/users/${book.customer_id}`);
                     book.customer = response.data.data;
                 }
                 catch (error) {

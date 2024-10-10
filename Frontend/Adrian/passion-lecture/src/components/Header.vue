@@ -29,7 +29,7 @@ export default {
     if (localStorage.getItem('userId') != null) {
       const userId = localStorage.getItem('userId');
       try {
-        const response = await axios.get(`http://localhost:3000/api/users/${userId}`);
+        const response = await axios.get(`https://api-love-books.azurewebsites.net/api/users/${userId}`);
         const user = response.data.data;
         
         if (user.admin) {

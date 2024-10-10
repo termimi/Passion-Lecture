@@ -28,7 +28,7 @@ export default {
   methods: {
     async fetchUserInfo(userId) {
       try {
-        const response = await axios.get(`http://localhost:3000/api/users/${userId}`);
+        const response = await axios.get(`https://api-love-books.azurewebsites.net/api/users/${userId}`);
         this.user = response.data.data; 
       } catch (error) {
         console.error('Error al recuperar información del usuario:', error);
@@ -36,7 +36,7 @@ export default {
     },
     async fetchUserBooks(userId) {
       try {
-        const response = await axios.get('http://localhost:3000/api/books/');
+        const response = await axios.get('https://api-love-books.azurewebsites.net/api/books/');
         const booksR = response.data.data;
         //this.books = responseBook.data.data.filter(book => book.customer_id === userId); 
         console.log(booksR[0].customer_id)
@@ -49,7 +49,7 @@ export default {
     },
     async deleteBook(bookId) {
       try {
-        await axios.delete(`http://localhost:3000/api/books/${bookId}`);
+        await axios.delete(`https://api-love-books.azurewebsites.net/api/books/${bookId}`);
         console.log('Libro eliminado exitosamente');
         // Vuelve a cargar los libros después de eliminar el libro
         await this.fetchUserBooks(localStorage.getItem('userId'));

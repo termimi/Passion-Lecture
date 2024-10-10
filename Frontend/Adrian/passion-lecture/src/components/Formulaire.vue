@@ -44,7 +44,7 @@ export default {
         async login() {
 
             // Requete à l'api en envoyant nos données
-            await axios.post('http://localhost:3000/api/login/', {
+            await axios.post('https://api-love-books.azurewebsites.net/api/login/', {
                 pseudo: this.pseudo,
                 password: this.password,
                 // Reponse de l'api
