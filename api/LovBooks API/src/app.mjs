@@ -35,7 +35,7 @@ app.get("/", (req, res) => {
 })
  
 app.get("/api/", (req, res) => {
-    res.redirect(`api-love-books.azurewebsites.net/`)
+    res.redirect(`https://api-love-books.azurewebsites.net/`)
 })
  
  
