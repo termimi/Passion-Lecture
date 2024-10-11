@@ -18,8 +18,8 @@ import { categorys } from "./mock-category.mjs";
 import { assessments } from "./mock-assessment.mjs";
 
 // Informations pour la connexion à la db
-const sequelize = new Sequelize("db_lovbooks", "admin347", "$Azureuser2024", {
-  host: "frdpassionlecture.mysql.database.azure.com",
+const sequelize = new Sequelize("db_lovbooks", "admin347", "Azure2024", {
+  host: "passiolecture.mysql.database.azure.com",
   dialect: "mysql",
   port: 3306,
   logging: false,
